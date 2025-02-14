@@ -1,0 +1,6 @@
+rootProject.name = 'building-blocks'
+include 'src:shared'
+findProject(':src:shared')?.name = 'shared'
+include 'src:shared:src:domain'
+findProject(':src:shared:src:domain')?.name = 'domain'
+
