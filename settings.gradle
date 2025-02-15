@@ -2,3 +2,8 @@ rootProject.name = 'building-blocks'
 
 include ':shared:domain'
 project(':shared:domain').projectDir= file('./src/shared/src/domain')
+include 'src:MovementsAndTactics'
+findProject(':src:MovementsAndTactics')?.name = 'MovementsAndTactics'
+include 'src:MovementsAndTactics'
+findProject(':src:MovementsAndTactics')?.name = 'MovementsAndTactics'
+
