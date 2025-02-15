@@ -1,4 +1,4 @@
-package com.buildingblocks.shared.domain.generic;
+package com.buildingblocks.movementsandtactics.domain.shared.domain.generic;
 
 import java.time.Instant;
 import java.util.UUID;

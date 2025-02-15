@@ -1,4 +1,4 @@
-package com.buildingblocks.shared.domain.generic;
+package com.buildingblocks.movementsandtactics.domain.shared.domain.generic;
 
 public abstract class Entity<I extends Identity> {
   private final I identity;
