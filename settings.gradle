@@ -6,4 +6,6 @@ include 'src:MovementsAndTactics'
 findProject(':src:MovementsAndTactics')?.name = 'MovementsAndTactics'
 include 'src:MovementsAndTactics'
 findProject(':src:MovementsAndTactics')?.name = 'MovementsAndTactics'
+include 'src:MovementsAndTactics:src:domain'
+findProject(':src:MovementsAndTactics:src:domain')?.name = 'domain'
 
