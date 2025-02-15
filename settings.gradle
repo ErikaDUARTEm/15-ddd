@@ -1,11 +1,10 @@
 rootProject.name = 'building-blocks'
 
 include ':shared:domain'
+include ':movements-and-tactics:domain'
+
 project(':shared:domain').projectDir= file('./src/shared/src/domain')
-include 'src:MovementsAndTactics'
-findProject(':src:MovementsAndTactics')?.name = 'MovementsAndTactics'
-include 'src:MovementsAndTactics'
-findProject(':src:MovementsAndTactics')?.name = 'MovementsAndTactics'
-include 'src:MovementsAndTactics:src:domain'
-findProject(':src:MovementsAndTactics:src:domain')?.name = 'domain'
+project(':movements-and-tactics:domain').projectDir = file('./src/movements-and-tactics/src/domain')
+include 'src:movements-and-tactics:src:domain'
+findProject(':src:movements-and-tactics:src:domain')?.name = 'domain'
 
