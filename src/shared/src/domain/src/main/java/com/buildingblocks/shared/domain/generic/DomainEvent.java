@@ -18,4 +18,40 @@ public abstract class DomainEvent {
     this.version = 1L;
 
   }
+
+  public Instant getWhen() {
+    return when;
+  }
+
+  public String getUuid() {
+    return uuid;
+  }
+
+  public String getAggregateRootId() {
+    return aggregateRootId;
+  }
+
+  public void setAggregateRootId(String aggregateRootId) {
+    this.aggregateRootId = aggregateRootId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getAggregateName() {
+    return aggregateName;
+  }
+
+  public void setAggregateName(String aggregateName) {
+    this.aggregateName = aggregateName;
+  }
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
+  }
 }
