@@ -25,4 +25,16 @@ public class Boxes implements IValueObject {
     ValidateBoxes.validateRow(row);
     ValidateBoxes.validateColumn(column);
   }
+
+  public Integer getRow() {
+    return row;
+  }
+
+  public Column getColumn() {
+    return column;
+  }
+
+  public PieceMovement getPiece() {
+    return piece;
+  }
 }
