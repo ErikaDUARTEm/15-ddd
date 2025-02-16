@@ -1,14 +1,15 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
-import com.buildingblocks.movementsandtactics.domain.shared.domain.generic.DomainEvent;
+import com.buildingblocks.domain.shared.domain.utils.Column;
+import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 public class AdvancedBox extends DomainEvent {
   private final Integer row;
-  private final Integer column;
+  private final Column column;
   private final Integer piece;
   private final Integer idPlayer;
 
-  public AdvancedBox(Integer row, Integer column, Integer piece, Integer idPlayer) {
+  public AdvancedBox(Integer row, Column column, Integer piece, Integer idPlayer) {
     super(EventsEnum.ADVANCED_BOX.name());
     this.row = row;
     this.column = column;
@@ -20,7 +21,7 @@ public class AdvancedBox extends DomainEvent {
     return row;
   }
 
-  public Integer getColumn() {
+  public Column getColumn() {
     return column;
   }
 

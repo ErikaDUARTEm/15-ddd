@@ -1,7 +1,7 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
-import com.buildingblocks.movementsandtactics.domain.shared.domain.generic.DomainEvent;
+import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 public class MovedPiece extends DomainEvent {
   private final Integer idPlayer;
