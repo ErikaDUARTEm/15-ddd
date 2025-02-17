@@ -67,5 +67,11 @@ public class Shift extends Entity<ShiftId> {
     }
     assign(idPlayerNew, numberShiftNew);
   }
+  public void endShift(){
+    if(currentShift != null){
+      record();
+    }
+    currentShift = null;
+  }
   //endregion
 }
