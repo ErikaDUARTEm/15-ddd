@@ -11,6 +11,7 @@ import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNot
 public class Shift extends Entity<ShiftId> {
   private CurrentShift currentShift;
   private ShiftHistory history;
+
   //region Constructors
   public Shift(ShiftId identity, CurrentShift currentShift, ShiftHistory history) {
     super(identity);

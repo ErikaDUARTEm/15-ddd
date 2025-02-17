@@ -14,6 +14,7 @@ public class PieceMovement extends Entity<PieceMovementId> {
   private PieceColor pieceColor;
   private Box currentBox;
 
+  //region Constructors
   public PieceMovement(PieceType pieceType, PieceColor pieceColor, Box initialBox) {
     super(new PieceMovementId());
     this.pieceType = pieceType;
@@ -25,11 +26,8 @@ public class PieceMovement extends Entity<PieceMovementId> {
     this.pieceType = pieceType;
     this.pieceColor = pieceColor;
   }
-  public void move(Box newBox) {
-     validateNotNull(newBox.toString(), "The new box cannot be null");
-    this.currentBox = newBox;
-  }
-
+  //endregion
+  //region Getters and Setters
   public PieceType getPieceType() {
     return pieceType;
   }
@@ -53,4 +51,11 @@ public class PieceMovement extends Entity<PieceMovementId> {
   public void setCurrentBox(Box currentBox) {
     this.currentBox = currentBox;
   }
+  //endregion
+  //region Methods
+  public void move(Box newBox) {
+    validateNotNull(newBox.toString(), "The new box cannot be null");
+    this.currentBox = newBox;
+  }
+  //endregion
 }
