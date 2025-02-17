@@ -3,7 +3,6 @@ package com.buildingblocks.movementsandtactics.domain.movements.values;
 import com.buildingblocks.domain.shared.domain.utils.Column;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
-
 import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateColumn;
 import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateRow;
 
@@ -27,7 +26,9 @@ public class Boxes implements IValueObject {
     validateRow(row);
     validateColumn(column);
   }
-
+  public boolean isOccupiedBox() {
+    return piece != null;
+  }
   public Integer getRow() {
     return row;
   }

@@ -14,4 +14,5 @@ public class ValidateBoxes {
       throw new IllegalArgumentException("Column must be between A and H");
     }
   }
+
 }

@@ -10,7 +10,7 @@ public class PieceType implements IValueObject {
 
   private PieceType(Type type) {
     this.type = type;
-
+    validate();
   }
   public static PieceType of(Type type){
     return new PieceType(type);

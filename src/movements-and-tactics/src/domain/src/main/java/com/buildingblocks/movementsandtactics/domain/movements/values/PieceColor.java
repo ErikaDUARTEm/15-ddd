@@ -10,6 +10,7 @@ public class PieceColor implements IValueObject {
 
   private PieceColor(String color) {
     this.color = color;
+    validate();
   }
   public static PieceColor of(String color){
     return new PieceColor(color);
