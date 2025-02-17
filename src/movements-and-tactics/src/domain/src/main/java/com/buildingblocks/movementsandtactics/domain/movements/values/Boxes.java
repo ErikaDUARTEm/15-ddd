@@ -1,9 +1,11 @@
 package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.utils.Column;
-import com.buildingblocks.domain.shared.domain.utils.ValidateBoxes;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
+
+import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateColumn;
+import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateRow;
 
 public class Boxes implements IValueObject {
   private final Integer row;
@@ -22,8 +24,8 @@ public class Boxes implements IValueObject {
 
   @Override
   public void validate() {
-    ValidateBoxes.validateRow(row);
-    ValidateBoxes.validateColumn(column);
+    validateRow(row);
+    validateColumn(column);
   }
 
   public Integer getRow() {
