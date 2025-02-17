@@ -1,0 +1,15 @@
+package com.buildingblocks.movementsandtactics.domain.movements.events;
+
+public enum EventsEnum {
+  ADVANCED_BOX,
+  VALIDATED_PIECE_COLOR,
+  EXECUTED_MOVEMENT,
+  INVALID_MOVEMENT,
+  VALIDATED_PIECE_TYPE,
+  MOVED_PIECE,
+  ASSIGNED_SHIFT,
+  CHANGED_SHIFT,
+  UPDATED_BOX,
+  UPDATED_MOVEMENT,
+  VALIDATED_MOVEMENT
+}
