@@ -15,11 +15,10 @@ public class CurrentShift implements IValueObject {
     return new CurrentShift(numberShift);
   }
   @Override
-  public List<String> validate() {
+  public void validate() {
     if (numberShift < 1) {
       throw new IllegalArgumentException("Turn number must be positive and greater than 0");
     }
-    return null;
   }
 
   public Integer getNumberShift() {

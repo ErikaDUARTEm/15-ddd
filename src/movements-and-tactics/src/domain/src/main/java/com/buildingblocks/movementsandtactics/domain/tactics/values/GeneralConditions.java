@@ -12,17 +12,17 @@ public class GeneralConditions implements IValueObject {
 
   private GeneralConditions(final List<String> conditions) {
     this.conditions = conditions;
+    validate();
   }
   public static GeneralConditions of(List<String> conditions){
     return new GeneralConditions(conditions);
   }
   @Override
-  public List<String> validate() {
+  public void validate() {
     for (String condition : conditions) {
       validateNotEmpty(condition, "condition cannot be empty");
       validateNotNull(condition, "condition cannot be null");
     }
-    return List.of();
   }
   public List<String> getConditions() {
     return conditions;

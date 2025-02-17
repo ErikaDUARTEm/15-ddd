@@ -17,12 +17,11 @@ public class SpecificConditions implements IValueObject {
     return new SpecificConditions(conditions);
   }
   @Override
-  public List<String> validate() {
+  public void validate() {
     for (String condition : conditions) {
        validateNotEmpty(condition, "condition cannot be empty");
        validateNotNull(condition, "condition cannot be null");
     }
-    return null;
   }
 
   public List<String> getConditions() {

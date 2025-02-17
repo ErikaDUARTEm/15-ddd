@@ -16,11 +16,10 @@ public class HistoryMovements implements IValueObject {
     return new HistoryMovements(movements);
   }
   @Override
-  public List<String> validate() {
+  public void validate() {
     if (movements == null) {
       throw new IllegalArgumentException("Movements cannot be null");
     }
-    return null;
   }
 
   public List<MovementId> getMovements() {

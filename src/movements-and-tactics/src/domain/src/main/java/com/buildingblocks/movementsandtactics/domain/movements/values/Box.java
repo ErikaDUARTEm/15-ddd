@@ -24,10 +24,9 @@ public class Box implements IValueObject {
   }
 
   @Override
-  public List<String> validate() {
+  public void validate() {
     validateRow(row);
     validateColumn(column);
-    return null;
   }
   public boolean isOccupiedBox() {
     return pieceId != null;

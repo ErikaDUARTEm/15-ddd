@@ -18,10 +18,10 @@ public class Description implements IValueObject {
     return new Description(text);
   }
   @Override
-  public List<String> validate() {
+  public void validate() {
     validateNotNull(text, "text cannot be null");
     validateNotEmpty(text, "text cannot be empty");
-    return null;
+
   }
 
   public String getText() {

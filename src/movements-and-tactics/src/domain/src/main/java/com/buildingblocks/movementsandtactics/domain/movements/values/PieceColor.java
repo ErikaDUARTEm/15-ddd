@@ -20,11 +20,10 @@ public class PieceColor implements IValueObject {
   }
 
   @Override
-  public List<String> validate() {
+  public void validate() {
     validateNotNull(color, "color cannot be null");
     validateNotEmpty(color, "color cannot be empty");
     validateColor(color);
-    return null;
   }
 
   public String getColor() {

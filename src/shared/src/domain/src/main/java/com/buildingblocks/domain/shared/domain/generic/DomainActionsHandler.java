@@ -18,10 +18,10 @@ public class DomainActionsHandler {
     return events;
   }
 
-  public void suscribe(final DomainActionsContainer actionsContainer){
+  public void subscribe(final DomainActionsContainer actionsContainer){
     actions.addAll(actionsContainer.actions);
   }
-  private void apply (final DomainEvent event){
+  public void apply (final DomainEvent event){
     actions.forEach(action ->handle(event, action));
   }
   private void handle(final DomainEvent event, final Consumer<? super DomainEvent> consumer){

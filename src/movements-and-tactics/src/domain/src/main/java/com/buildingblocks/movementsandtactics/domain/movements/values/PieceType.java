@@ -19,10 +19,9 @@ public class PieceType implements IValueObject {
   }
 
   @Override
-  public List<String> validate() {
+  public void validate() {
     validateNotNull(String.valueOf(type), "type cannot be null");
     validateNotEmpty(String.valueOf(type), "type cannot be empty");
-    return null;
   }
 
   public Type getType() {

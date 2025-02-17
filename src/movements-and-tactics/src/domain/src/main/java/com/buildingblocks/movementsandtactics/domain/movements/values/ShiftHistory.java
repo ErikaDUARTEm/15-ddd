@@ -19,12 +19,11 @@ public class ShiftHistory implements IValueObject {
     return new ShiftHistory(shifts);
   }
   @Override
-  public List<String> validate() {
+  public void validate() {
     for (CurrentShift shift : shifts) {
       validateNotNull(shift.toString(), "shift cannot be null");
       validateNotEmpty(shift.toString(), "shift cannot be empty");
     }
-    return null;
   }
   public void addShift(CurrentShift newShift) {
     shifts.add(newShift);

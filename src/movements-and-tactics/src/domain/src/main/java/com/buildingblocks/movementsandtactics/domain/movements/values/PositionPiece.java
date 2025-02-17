@@ -19,10 +19,9 @@ public class PositionPiece implements IValueObject {
     return new PositionPiece(positionInitial, positionFinal);
   }
   @Override
-  public List<String> validate() {
+  public void validate() {
     validatePosition(positionInitial);
     validatePosition(positionFinal);
-    return null;
   }
   public static Boolean isPositionValid(Integer fila, Column columna) {
     return fila >= 1 && fila <= 8 && columna != null;
