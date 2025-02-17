@@ -1,33 +1,36 @@
 package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.utils.Column;
-import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
+
+import java.util.List;
+
 import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateColumn;
 import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateRow;
 
-public class Boxes implements IValueObject {
+public class Box implements IValueObject {
   private final Integer row;
   private final Column column;
-  private final PieceMovement piece;
+  private final Integer pieceId;
 
-  private Boxes(final Integer row, final Column column,final PieceMovement piece) {
+  private Box(final Integer row, final Column column, final Integer pieceId) {
     this.row = row;
     this.column = column;
-    this.piece = piece;
+    this.pieceId = pieceId;
     validate();
   }
-  public static Boxes of(Integer row, Column column, PieceMovement piece){
-    return new Boxes(row, column, piece);
+  public static Box of(Integer row, Column column, Integer pieceId){
+    return new Box(row, column, pieceId);
   }
 
   @Override
-  public void validate() {
+  public List<String> validate() {
     validateRow(row);
     validateColumn(column);
+    return null;
   }
   public boolean isOccupiedBox() {
-    return piece != null;
+    return pieceId != null;
   }
   public Integer getRow() {
     return row;
@@ -37,7 +40,7 @@ public class Boxes implements IValueObject {
     return column;
   }
 
-  public PieceMovement getPiece() {
-    return piece;
+  public Integer getPiece() {
+    return pieceId;
   }
 }

@@ -2,6 +2,8 @@ package com.buildingblocks.movementsandtactics.domain.tactics.values;
 
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
 
+import java.util.List;
+
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotEmpty;
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
@@ -16,9 +18,10 @@ public class Description implements IValueObject {
     return new Description(text);
   }
   @Override
-  public void validate() {
-    validateNotNull(text);
-    validateNotEmpty(text);
+  public List<String> validate() {
+    validateNotNull(text, "text cannot be null");
+    validateNotEmpty(text, "text cannot be empty");
+    return null;
   }
 
   public String getText() {

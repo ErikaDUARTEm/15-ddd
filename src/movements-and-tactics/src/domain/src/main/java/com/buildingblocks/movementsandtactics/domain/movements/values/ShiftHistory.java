@@ -1,10 +1,8 @@
 package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
-import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotEmpty;
@@ -21,11 +19,12 @@ public class ShiftHistory implements IValueObject {
     return new ShiftHistory(shifts);
   }
   @Override
-  public void validate() {
+  public List<String> validate() {
     for (CurrentShift shift : shifts) {
-      validateNotNull(shift.toString());
-      validateNotEmpty(shift.toString());
+      validateNotNull(shift.toString(), "shift cannot be null");
+      validateNotEmpty(shift.toString(), "shift cannot be empty");
     }
+    return null;
   }
   public void addShift(CurrentShift newShift) {
     shifts.add(newShift);
