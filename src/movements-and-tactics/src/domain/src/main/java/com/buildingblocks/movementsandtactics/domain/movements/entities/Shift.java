@@ -42,7 +42,7 @@ public class Shift extends Entity<ShiftId> {
   }
   //endregion
   //region Methods
-   public void assign(String idPlayer, Integer numberShift) {
+   public void assign(String idPlayer, ShiftId numberShift) {
     validateNotEmpty(idPlayer, "idPlayer cannot be empty");
     validateNotNull(idPlayer, "idPlayer cannot be null");
     validateNotEmpty(String.valueOf(numberShift), "numberShift cannot be empty");
@@ -62,7 +62,7 @@ public class Shift extends Entity<ShiftId> {
     history = history.addShift(currentShift);
     currentShift = null;
   }
-  public void change(String idPlayerNew, Integer numberShiftNew) {
+  public void change(String idPlayerNew, ShiftId numberShiftNew) {
     record();
     assign(idPlayerNew, numberShiftNew);
   }

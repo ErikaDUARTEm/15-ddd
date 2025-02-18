@@ -28,7 +28,7 @@ public class ShiftHistory implements IValueObject {
   public ShiftHistory addShift(CurrentShift newShift) {
     List<CurrentShift> updatedShifts = new ArrayList<>(this.shifts);
     updatedShifts.add(newShift);
-    return new ShiftHistory(updatedShifts);
+    return ShiftHistory.of(updatedShifts);
   }
   public List<CurrentShift> getShifts() {
     return shifts;

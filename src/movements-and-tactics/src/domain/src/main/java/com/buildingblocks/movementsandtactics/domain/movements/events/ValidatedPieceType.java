@@ -1,24 +1,27 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
+import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
+import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
+import com.buildingblocks.movementsandtactics.domain.tactics.entities.Type;
 
 public class ValidatedPieceType extends DomainEvent {
-  private final Integer idPiece;
-  private final String expectedType;
+  private final PieceMovementId idPiece;
+  private final PieceType expectedType;
   private final Boolean isValid;
 
-  public ValidatedPieceType(Integer idPiece, String expectedType, Boolean isValid) {
+  public ValidatedPieceType(PieceMovementId idPiece,  PieceType expectedType, Boolean isValid) {
     super(EventsEnum.VALIDATED_PIECE_TYPE.name());
     this.idPiece = idPiece;
     this.expectedType = expectedType;
     this.isValid = isValid;
   }
 
-  public Integer getIdPiece() {
+  public  PieceMovementId getIdPiece() {
     return idPiece;
   }
 
-  public String getExpectedType() {
+  public  PieceType getExpectedType() {
     return expectedType;
   }
 

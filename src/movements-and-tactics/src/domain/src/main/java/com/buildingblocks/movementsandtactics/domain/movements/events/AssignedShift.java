@@ -20,11 +20,11 @@ public class AssignedShift extends DomainEvent {
     return idPlayer;
   }
 
-  public Integer getCurrentShift() {
-    return currentShift.getNumberShift();
-  }
-
   public ShiftId getIdShift() {
     return idShift;
+  }
+
+  public CurrentShift getCurrentShift() {
+    return currentShift;
   }
 }

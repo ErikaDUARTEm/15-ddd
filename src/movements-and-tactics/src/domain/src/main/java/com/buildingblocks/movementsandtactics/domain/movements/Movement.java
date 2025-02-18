@@ -6,11 +6,19 @@ import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMov
 import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBox;
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.CapturedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
+import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
+import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
+import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
+import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftId;
 
 
 public class Movement extends AggregateRoot<MovementId> {
@@ -87,9 +95,9 @@ public class Movement extends AggregateRoot<MovementId> {
     shift.assign(playerId.toString(), shiftNumber.getNumberShift());
     apply(new AssignedShift(shift.getIdentity(), playerId, CurrentShift.of(shiftNumber.getNumberShift())));
   }
-  public void changeShift(Integer previousPlayerId, Integer newPlayerId, Integer shiftNumber) {
+  public void changeShift(Integer previousPlayerId, Integer newPlayerId, ShiftId shiftNumber) {
     shift.change(newPlayerId.toString(), shiftNumber);
-    apply(new ChangedShift(previousPlayerId, newPlayerId));
+    apply(new ChangedShift(previousPlayerId, newPlayerId, shiftNumber));
   }
   public void movePiece(Integer playerId, Integer pieceId, PositionPiece positionInitial, PositionPiece positionFinal) {
     if (pieceMovement != null) {
@@ -108,6 +116,27 @@ public class Movement extends AggregateRoot<MovementId> {
       ));
     }
   }
+  public void endShift(Integer idPlayer) {
+    shift.endShift();
+    apply(new EndedShift(idPlayer));
+  }
+  public void recordCurrentShift(Integer idPlayer) {
+    shift.record();
+    apply(new RecordedShift(idPlayer));
+  }
+  public void validatePieceColor(PieceColor pieceColor) {
+    pieceMovement.validatePieceColor(pieceColor);
+    apply(new ValidatedPieceColor(pieceMovement.getIdentity(), pieceMovement.getPieceColor(), true));
+  }
 
+  public void validatePieceType(PieceType pieceType) {
+    pieceMovement.validatePieceType(pieceType);
+    apply(new ValidatedPieceType(pieceMovement.getIdentity(), pieceMovement.getPieceType(), true));
+  }
+  public void capturePiece(PieceMovement opponentPiece) {
+    if (pieceMovement != null && pieceMovement.captureOpponentPiece(opponentPiece)) {
+      apply(new CapturedPiece(opponentPiece));
+    }
+  }
   //endregion
 }

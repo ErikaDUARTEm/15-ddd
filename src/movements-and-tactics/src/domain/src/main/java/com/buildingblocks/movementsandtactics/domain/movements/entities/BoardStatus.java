@@ -61,7 +61,6 @@ public class BoardStatus extends Entity<BoardStatusId> {
     boxes.add(newBox);
   }
   public void recordMovement(MovementId movement) {
-
     this.history = HistoryMovements.of(List.of(movement));
   }
   //endregion
