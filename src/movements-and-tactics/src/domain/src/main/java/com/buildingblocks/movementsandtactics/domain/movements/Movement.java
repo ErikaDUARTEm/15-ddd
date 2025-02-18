@@ -4,8 +4,14 @@ import com.buildingblocks.domain.shared.domain.generic.AggregateRoot;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.BoardStatus;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBox;
+import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
+import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
+
 
 public class Movement extends AggregateRoot<MovementId> {
   private Integer idTactic;
@@ -15,16 +21,16 @@ public class Movement extends AggregateRoot<MovementId> {
   private PieceMovement pieceMovement;
   private BoardStatus boardStatus;
 
-
   //region Constructors
   public Movement() {
     super(new MovementId());
+    subscribe(new MovementHandler(this));
+    apply(new AssignedShift(shift.getIdentity(), idPlayer, shift.getCurrentShift()));
   }
 
   private Movement(MovementId identity) {
     super(identity);
   }
-
 
   //endregion
   //region Getters and Setters
@@ -77,5 +83,31 @@ public class Movement extends AggregateRoot<MovementId> {
   }
   //endregion
   //region Methods
+  public void assignShiftToPlayer(Integer playerId, CurrentShift shiftNumber) {
+    shift.assign(playerId.toString(), shiftNumber.getNumberShift());
+    apply(new AssignedShift(shift.getIdentity(), playerId, CurrentShift.of(shiftNumber.getNumberShift())));
+  }
+  public void changeShift(Integer previousPlayerId, Integer newPlayerId, Integer shiftNumber) {
+    shift.change(newPlayerId.toString(), shiftNumber);
+    apply(new ChangedShift(previousPlayerId, newPlayerId));
+  }
+  public void movePiece(Integer playerId, Integer pieceId, PositionPiece positionInitial, PositionPiece positionFinal) {
+    if (pieceMovement != null) {
+      pieceMovement.move(positionFinal.getPositionFinal());
+      apply(new MovedPiece(playerId, pieceId, positionInitial, positionFinal));
+    }
+  }
+  public void advancePiece(PositionPiece positionPiece) {
+    if (boardStatus != null) {
+      boardStatus.advanceBox(positionPiece);
+      apply(new AdvancedBox(
+        positionPiece.getPositionFinal().getRow(),
+        positionPiece.getPositionFinal().getColumn(),
+        pieceMovement.getIdentity().toString(),
+        idPlayer
+      ));
+    }
+  }
+
   //endregion
 }

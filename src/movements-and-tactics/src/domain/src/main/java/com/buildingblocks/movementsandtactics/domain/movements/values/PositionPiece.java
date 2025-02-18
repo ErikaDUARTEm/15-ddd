@@ -3,8 +3,6 @@ package com.buildingblocks.movementsandtactics.domain.movements.values;
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
 import com.buildingblocks.domain.shared.domain.utils.Column;
 
-import java.util.List;
-
 
 public class PositionPiece implements IValueObject {
   private final Box positionInitial;

@@ -2,7 +2,7 @@ package com.buildingblocks.domain.shared.domain.utils;
 
 public class Validate {
 
-  public static void validateNotNull(String objectValue, String message) {
+  public static void validateNotNull(Object objectValue, String message) {
     if (objectValue == null) {
       throw new IllegalArgumentException(message);
     }

@@ -1,22 +1,30 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
+import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
+import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftId;
 
 public class AssignedShift extends DomainEvent {
-  private final String idPlayer;
-  private final String currentShift;
+  private final ShiftId idShift;
+  private final Integer idPlayer;
+  private final CurrentShift currentShift;
 
-  public AssignedShift(String idPlayer, String currentShift) {
+  public AssignedShift(ShiftId idShift, Integer idPlayer, CurrentShift currentShift) {
     super(EventsEnum.ASSIGNED_SHIFT.name());
+    this.idShift = idShift;
     this.idPlayer = idPlayer;
     this.currentShift = currentShift;
   }
 
-  public String getIdPlayer() {
+  public Integer getIdPlayer() {
     return idPlayer;
   }
 
-  public String getCurrentShift() {
-    return currentShift;
+  public Integer getCurrentShift() {
+    return currentShift.getNumberShift();
+  }
+
+  public ShiftId getIdShift() {
+    return idShift;
   }
 }

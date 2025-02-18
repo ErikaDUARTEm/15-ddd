@@ -1,11 +1,10 @@
 package com.buildingblocks.movementsandtactics.domain.movements.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
+import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
-
-import javax.swing.*;
 
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
@@ -54,8 +53,15 @@ public class PieceMovement extends Entity<PieceMovementId> {
   //endregion
   //region Methods
   public void move(Box newBox) {
-    validateNotNull(newBox.toString(), "The new box cannot be null");
+    validateNotNull(newBox, "The new box cannot be null");
     this.currentBox = newBox;
+  }
+  public void validatePieceColor(PieceColor pieceColor) {
+    pieceColor.validate();
+  }
+
+  public void validatePieceType(PieceType pieceType) {
+    pieceType.validate();
   }
   //endregion
 }

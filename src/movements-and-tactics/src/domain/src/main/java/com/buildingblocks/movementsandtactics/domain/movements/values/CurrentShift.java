@@ -2,7 +2,8 @@ package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
 
-import java.util.List;
+import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
+
 
 public class CurrentShift implements IValueObject {
   private final Integer numberShift;
@@ -16,9 +17,7 @@ public class CurrentShift implements IValueObject {
   }
   @Override
   public void validate() {
-    if (numberShift < 1) {
-      throw new IllegalArgumentException("Turn number must be positive and greater than 0");
-    }
+    validateNotNull(numberShift, "numberShift cannot be null");
   }
 
   public Integer getNumberShift() {

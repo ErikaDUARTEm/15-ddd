@@ -12,7 +12,7 @@ import java.util.List;
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
 public class BoardStatus extends Entity<BoardStatusId> {
-  private List<Box boxes;
+  private List<Box> boxes;
   private HistoryMovements history;
 
   //region Constructors
@@ -44,6 +44,7 @@ public class BoardStatus extends Entity<BoardStatusId> {
     this.boxes = boxes;
   }
   //endregion
+
   //region Methods
   public void advanceBox(PositionPiece positionPiece) {
     Box fromBox = positionPiece.getPositionInitial();
@@ -56,10 +57,11 @@ public class BoardStatus extends Entity<BoardStatusId> {
   }
 
   public void updateBox(Box newBox) {
-    validateNotNull(newBox.toString(), "The new box cannot be null");
+    validateNotNull(newBox, "The new box cannot be null");
     boxes.add(newBox);
   }
   public void recordMovement(MovementId movement) {
+
     this.history = HistoryMovements.of(List.of(movement));
   }
   //endregion

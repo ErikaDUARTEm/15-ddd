@@ -6,10 +6,10 @@ import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 public class AdvancedBox extends DomainEvent {
   private final Integer row;
   private final Column column;
-  private final Integer piece;
+  private final String piece;
   private final Integer idPlayer;
 
-  public AdvancedBox(Integer row, Column column, Integer piece, Integer idPlayer) {
+  public AdvancedBox(Integer row, Column column, String piece, Integer idPlayer) {
     super(EventsEnum.ADVANCED_BOX.name());
     this.row = row;
     this.column = column;
@@ -29,7 +29,7 @@ public class AdvancedBox extends DomainEvent {
     return idPlayer;
   }
 
-  public Integer getPiece() {
+  public String getPiece() {
     return piece;
   }
 }

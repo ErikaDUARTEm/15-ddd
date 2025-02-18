@@ -58,20 +58,16 @@ public class Shift extends Entity<ShiftId> {
   }
 
   public void record(){
-    validateNotNull(currentShift.toString(), "currentShift cannot be null");
-    history.addShift(currentShift);
+    validateNotNull(currentShift, "currentShift cannot be null");
+    history = history.addShift(currentShift);
     currentShift = null;
   }
   public void change(String idPlayerNew, Integer numberShiftNew) {
-    if(currentShift != null){
-      record();
-    }
+    record();
     assign(idPlayerNew, numberShiftNew);
   }
   public void endShift(){
-    if(currentShift != null){
-      record();
-    }
+    record();
     currentShift = null;
   }
   //endregion
