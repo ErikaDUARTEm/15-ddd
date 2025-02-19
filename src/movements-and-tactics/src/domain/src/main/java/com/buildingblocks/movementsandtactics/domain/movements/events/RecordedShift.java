@@ -3,14 +3,14 @@ package com.buildingblocks.movementsandtactics.domain.movements.events;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 public class RecordedShift extends DomainEvent {
-  private final Integer idPlayer;
+  private final String idPlayer;
 
-  public RecordedShift(Integer idPlayer) {
+  public RecordedShift(String idPlayer) {
     super(EventsEnum.RECORDED_SHIFT.name());
     this.idPlayer = idPlayer;
   }
 
-  public Integer getIdPlayer() {
+  public String getIdPlayer() {
     return idPlayer;
   }
 }

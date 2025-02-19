@@ -14,16 +14,17 @@ public class PieceMovement extends Entity<PieceMovementId> {
   private Box currentBox;
 
   //region Constructors
-  public PieceMovement(PieceType pieceType, PieceColor pieceColor, Box initialBox) {
+  public PieceMovement(PieceType pieceType, PieceColor pieceColor, Box currentBox) {
     super(new PieceMovementId());
     this.pieceType = pieceType;
     this.pieceColor = pieceColor;
-    this.currentBox = initialBox;
+    this.currentBox = currentBox;
   }
-  PieceMovement(PieceMovementId identity,PieceType pieceType, PieceColor pieceColor) {
+  public PieceMovement(PieceMovementId identity,PieceType pieceType, PieceColor pieceColor,Box currentBox ) {
     super(identity);
     this.pieceType = pieceType;
     this.pieceColor = pieceColor;
+    this.currentBox = currentBox;
   }
   //endregion
   //region Getters and Setters

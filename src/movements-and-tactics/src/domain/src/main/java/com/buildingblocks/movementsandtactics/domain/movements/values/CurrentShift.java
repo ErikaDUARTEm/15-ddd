@@ -5,21 +5,21 @@ import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNot
 
 
 public class CurrentShift implements IValueObject {
-  private final ShiftId numberShift;
+  private final String shiftId;
 
-  private CurrentShift(ShiftId numberShift) {
-    this.numberShift = numberShift;
+  private CurrentShift(String shiftId) {
+    this.shiftId = shiftId;
     validate();
   }
-  public static CurrentShift of(ShiftId numberShift){
-    return new CurrentShift(numberShift);
+  public static CurrentShift of(String shiftId){
+    return new CurrentShift(shiftId);
   }
   @Override
   public void validate() {
-    validateNotNull(numberShift, "numberShift cannot be null");
+    validateNotNull(shiftId, "numberShift cannot be null");
   }
 
-  public ShiftId getNumberShift() {
-    return numberShift;
+  public String getNumberShift() {
+    return shiftId;
   }
 }

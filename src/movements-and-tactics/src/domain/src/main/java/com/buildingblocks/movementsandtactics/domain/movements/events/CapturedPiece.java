@@ -7,7 +7,7 @@ public class CapturedPiece extends DomainEvent {
   private final PieceMovement opponentPiece;
 
   public CapturedPiece(PieceMovement opponentPiece) {
-    super(EventsEnum.CAPTUREDPIECE.name());
+    super(EventsEnum.CAPTURED_PIECE.name());
     this.opponentPiece = opponentPiece;
   }
   public PieceMovement getOpponentPiece() {

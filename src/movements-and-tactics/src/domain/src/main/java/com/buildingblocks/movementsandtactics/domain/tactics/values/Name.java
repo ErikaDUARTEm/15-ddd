@@ -7,21 +7,21 @@ import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNot
 
 
 public class Name implements IValueObject {
-  private final String name;
+  private final TypeTactic name;
 
-  private Name(String name) {
+  private Name(final TypeTactic name) {
     this.name = name;
   }
-  public static Name of(String name){
+  public static Name of(TypeTactic name){
     return new Name(name);
   }
   @Override
   public void validate() {
-    validateNotEmpty(name, "name cannot be empty");
+    validateNotEmpty(String.valueOf(name), "name cannot be empty");
     validateNotNull(name, "name cannot be null");
   }
 
-  public String getName() {
+  public TypeTactic getName() {
     return name;
   }
 }

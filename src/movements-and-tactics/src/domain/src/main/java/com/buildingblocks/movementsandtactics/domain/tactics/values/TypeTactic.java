@@ -1,0 +1,19 @@
+package com.buildingblocks.movementsandtactics.domain.tactics.values;
+
+public enum TypeTactic {
+  ENROQUE,
+  CAPTURA_AL_PASO,
+  PROMOCION_DEL_PEON,
+  JAQUE_MATE_DEL_LOCO,
+  JAQUE_MATE_DEL_PASTOR,
+  CLAVADA,
+  DOBLE_ATAQUE,
+  JAQUE_DOBLE,
+  JAQUE_DESCUBIERTO,
+  ATAQUE_A_LA_DESCUBIERTA,
+  RAYOS_X,
+  SOBRECARGA,
+  DESVIACION,
+  ATRACCION,
+  SACRIFICIO
+}

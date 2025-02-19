@@ -3,17 +3,18 @@ package com.buildingblocks.movementsandtactics.domain.movements.events;
 import com.buildingblocks.domain.shared.domain.utils.Column;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
+
 public class AdvancedBox extends DomainEvent {
   private final Integer row;
-  private final Column column;
-  private final String piece;
-  private final Integer idPlayer;
+  private final String column;
+  private final String pieceId;
+  private final String idPlayer;
 
-  public AdvancedBox(Integer row, Column column, String piece, Integer idPlayer) {
+  public AdvancedBox(Integer row, String column, String pieceId, String idPlayer) {
     super(EventsEnum.ADVANCED_BOX.name());
     this.row = row;
     this.column = column;
-    this.piece = piece;
+    this.pieceId = pieceId;
     this.idPlayer = idPlayer;
   }
 
@@ -21,15 +22,15 @@ public class AdvancedBox extends DomainEvent {
     return row;
   }
 
-  public Column getColumn() {
+  public String getColumn() {
     return column;
   }
 
-  public Integer getIdPlayer() {
+  public String getIdPlayer() {
     return idPlayer;
   }
 
-  public String getPiece() {
-    return piece;
+  public String getPieceId() {
+    return pieceId;
   }
 }

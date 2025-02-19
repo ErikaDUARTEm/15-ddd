@@ -8,23 +8,24 @@ import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.valida
 
 public class Box implements IValueObject {
   private final Integer row;
-  private final Column column;
+  private final String column;
   private final String pieceId;
 
-  private Box(final Integer row, final Column column, final String pieceId) {
+  private Box(final Integer row, final String column, final String pieceId) {
     this.row = row;
     this.column = column;
     this.pieceId = pieceId;
     validate();
   }
-  public static Box of(Integer row, Column column, String pieceId){
+  public static Box of(Integer row, String column, String pieceId){
+
     return new Box(row, column, pieceId);
   }
 
   @Override
   public void validate() {
     validateRow(row);
-    validateColumn(column);
+    validateColumn(Column.valueOf(column));
   }
   public boolean isOccupiedBox() {
     return pieceId != null;
@@ -33,11 +34,11 @@ public class Box implements IValueObject {
     return row;
   }
 
-  public Column getColumn() {
+  public String getColumn() {
     return column;
   }
 
-  public String getPiece() {
+  public String getPieceId() {
     return pieceId;
   }
 }
