@@ -3,30 +3,29 @@ package com.buildingblocks.movementsandtactics.domain.movements.values;
 import com.buildingblocks.domain.shared.domain.utils.Column;
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
 
-import java.util.List;
-
 import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateColumn;
 import static com.buildingblocks.domain.shared.domain.utils.ValidateBoxes.validateRow;
 
 public class Box implements IValueObject {
   private final Integer row;
-  private final Column column;
-  private final Integer pieceId;
+  private final String column;
+  private final String pieceId;
 
-  private Box(final Integer row, final Column column, final Integer pieceId) {
+  private Box(final Integer row, final String column, final String pieceId) {
     this.row = row;
     this.column = column;
     this.pieceId = pieceId;
     validate();
   }
-  public static Box of(Integer row, Column column, Integer pieceId){
+  public static Box of(Integer row, String column, String pieceId){
+
     return new Box(row, column, pieceId);
   }
 
   @Override
   public void validate() {
     validateRow(row);
-    validateColumn(column);
+    validateColumn(Column.valueOf(column));
   }
   public boolean isOccupiedBox() {
     return pieceId != null;
@@ -35,11 +34,11 @@ public class Box implements IValueObject {
     return row;
   }
 
-  public Column getColumn() {
+  public String  getColumn() {
     return column;
   }
 
-  public Integer getPiece() {
+  public String getPieceId() {
     return pieceId;
   }
 }

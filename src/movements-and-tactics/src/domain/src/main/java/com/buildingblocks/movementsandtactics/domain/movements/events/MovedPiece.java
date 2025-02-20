@@ -1,35 +1,48 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
-import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
+import com.buildingblocks.domain.shared.domain.utils.Column;
+
+import java.util.PrimitiveIterator;
 
 public class MovedPiece extends DomainEvent {
-  private final Integer idPlayer;
-  private final Integer idPiece;
-  private final PositionPiece positionInitial;
-  private final PositionPiece positionFinal;
+  private final String idPlayer;
+  private final String pieceId;
+  private final Integer row;
+  private final String column;
+  private final String color;
+  private final String type;
 
-  public MovedPiece(Integer idPlayer, Integer idPiece, PositionPiece positionInitial, PositionPiece positionFinal) {
+  public MovedPiece(String idPlayer, String pieceId, Integer row, String column, String color, String type) {
     super(EventsEnum.MOVED_PIECE.name());
     this.idPlayer = idPlayer;
-    this.idPiece = idPiece;
-    this.positionInitial = positionInitial;
-    this.positionFinal = positionFinal;
+    this.pieceId = pieceId;
+    this.row = row;
+    this.column = column;
+    this.color = color;
+    this.type = type;
   }
 
-  public Integer getIdPlayer() {
+  public String getIdPlayer() {
     return idPlayer;
   }
 
-  public Integer getIdPiece() {
-    return idPiece;
+  public String getPieceId() {
+    return pieceId;
+  }
+  public String getColumn() {
+    return column;
   }
 
-  public PositionPiece getPositionInitial() {
-    return positionInitial;
+  public Integer getRow() {
+    return row;
+  }
+  public String getColor() {
+    return color;
   }
 
-  public PositionPiece getPositionFinal() {
-    return positionFinal;
+  public String getType() {
+    return type;
   }
+
 }

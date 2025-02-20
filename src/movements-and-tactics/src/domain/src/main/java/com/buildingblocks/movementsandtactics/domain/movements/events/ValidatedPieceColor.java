@@ -1,24 +1,26 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
+import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
+import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
 
 public class ValidatedPieceColor extends DomainEvent {
-  private final Integer idPiece;
-  private final String expectedColor;
+  private final PieceMovementId idPiece;
+  private final PieceColor expectedColor;
   private final Boolean isValid;
 
-  public ValidatedPieceColor(Integer idPiece, String expectedColor, Boolean isValid) {
+  public ValidatedPieceColor(PieceMovementId idPiece, PieceColor expectedColor, Boolean isValid) {
     super(EventsEnum.VALIDATED_PIECE_COLOR.name());
     this.idPiece = idPiece;
     this.expectedColor = expectedColor;
     this.isValid = isValid;
   }
 
-  public Integer getIdPiece() {
+  public PieceMovementId getIdPiece() {
     return idPiece;
   }
 
-  public String getExpectedColor() {
+  public PieceColor getExpectedColor() {
     return expectedColor;
   }
 

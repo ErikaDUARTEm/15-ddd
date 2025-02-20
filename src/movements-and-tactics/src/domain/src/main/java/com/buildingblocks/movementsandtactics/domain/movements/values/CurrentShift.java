@@ -1,27 +1,31 @@
 package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
+import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
-import java.util.List;
 
 public class CurrentShift implements IValueObject {
-  private final Integer numberShift;
+  private final String shiftId;
+  private final String playerId;
 
-  private CurrentShift(Integer numberShift) {
-    this.numberShift = numberShift;
+  private CurrentShift(String shiftId, String playerId) {
+    this.shiftId = shiftId;
+    this.playerId = playerId;
     validate();
   }
-  public static CurrentShift of(Integer numberShift){
-    return new CurrentShift(numberShift);
+  public static CurrentShift of(String shiftId, String playerId){
+    return new CurrentShift(shiftId, playerId);
   }
   @Override
   public void validate() {
-    if (numberShift < 1) {
-      throw new IllegalArgumentException("Turn number must be positive and greater than 0");
-    }
+    validateNotNull(shiftId, "numberShift cannot be null");
   }
 
-  public Integer getNumberShift() {
-    return numberShift;
+  public String getNumberShift() {
+    return shiftId;
   }
+  public String getPlayerId() {
+    return playerId;
+  }
+
 }
