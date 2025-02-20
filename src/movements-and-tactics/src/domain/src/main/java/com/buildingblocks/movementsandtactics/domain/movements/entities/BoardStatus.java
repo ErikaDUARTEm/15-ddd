@@ -7,30 +7,29 @@ import com.buildingblocks.movementsandtactics.domain.movements.values.HistoryMov
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
 public class BoardStatus extends Entity<BoardStatusId> {
-  private List<Box> boxes;
+  private List<Box boxes;
   private HistoryMovements history;
 
   //region Constructors
   public BoardStatus( List<Box> boxes, HistoryMovements history) {
     super(new BoardStatusId());
     this.boxes = boxes;
-    this.history = HistoryMovements.of(new ArrayList<>());
+    this.history = history;
   }
-  public BoardStatus(BoardStatusId identity, List<Box> boxes,HistoryMovements history) {
+  public BoardStatus(BoardStatusId identity, List<Box> boxes, HistoryMovements history) {
     super(identity);
     this.boxes = boxes;
-    this.history = HistoryMovements.of(new ArrayList<>());
+    this.history = history;
   }
   //endregion
   //region Getters and Setters
 
-  public  HistoryMovements getHistory() {
+  public HistoryMovements getHistory() {
     return history;
   }
 
@@ -45,7 +44,6 @@ public class BoardStatus extends Entity<BoardStatusId> {
     this.boxes = boxes;
   }
   //endregion
-
   //region Methods
   public void advanceBox(PositionPiece positionPiece) {
     Box fromBox = positionPiece.getPositionInitial();
@@ -58,18 +56,11 @@ public class BoardStatus extends Entity<BoardStatusId> {
   }
 
   public void updateBox(Box newBox) {
-    validateNotNull(newBox, "The new box cannot be null");
-    for (int i = 0; i < boxes.size(); i++) {
-      Box currentBox = boxes.get(i);
-      if (currentBox.getRow().equals(newBox.getRow()) && currentBox.getColumn().equals(newBox.getColumn())) {
-        boxes.set(i, newBox);
-        return;
-      }
-    }
-    throw new IllegalStateException("Box to update not found");
+    validateNotNull(newBox.toString(), "The new box cannot be null");
+    boxes.add(newBox);
   }
-  public void recordMovement(MovementId movementId) {
-    this.history = history.add(movementId);
+  public void recordMovement(MovementId movement) {
+    this.history = HistoryMovements.of(List.of(movement));
   }
   //endregion
 }

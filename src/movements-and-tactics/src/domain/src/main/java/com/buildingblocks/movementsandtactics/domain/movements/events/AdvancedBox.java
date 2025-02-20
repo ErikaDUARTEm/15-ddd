@@ -1,46 +1,35 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
+import com.buildingblocks.domain.shared.domain.utils.Column;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
-
 
 public class AdvancedBox extends DomainEvent {
   private final Integer row;
-  private final String column;
-  private final String pieceId;
-  private final String idPlayer;
-  private final String type;
-  private final String color;
+  private final Column column;
+  private final Integer piece;
+  private final Integer idPlayer;
 
-  public AdvancedBox(Integer row, String column, String pieceId, String idPlayer, String type, String color) {
+  public AdvancedBox(Integer row, Column column, Integer piece, Integer idPlayer) {
     super(EventsEnum.ADVANCED_BOX.name());
     this.row = row;
     this.column = column;
-    this.pieceId = pieceId;
+    this.piece = piece;
     this.idPlayer = idPlayer;
-    this.type = type;
-    this.color = color;
   }
 
   public Integer getRow() {
     return row;
   }
 
-  public String getColumn() {
+  public Column getColumn() {
     return column;
   }
 
-  public String getIdPlayer() {
+  public Integer getIdPlayer() {
     return idPlayer;
   }
 
-  public String getPieceId() {
-    return pieceId;
-  }
-  public String getType() {
-    return type;
-  }
-
-  public String getColor() {
-    return color;
+  public Integer getPiece() {
+    return piece;
   }
 }

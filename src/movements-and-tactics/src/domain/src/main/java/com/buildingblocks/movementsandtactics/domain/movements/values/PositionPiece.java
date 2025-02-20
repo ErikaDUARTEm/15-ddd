@@ -3,6 +3,8 @@ package com.buildingblocks.movementsandtactics.domain.movements.values;
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
 import com.buildingblocks.domain.shared.domain.utils.Column;
 
+import java.util.List;
+
 
 public class PositionPiece implements IValueObject {
   private final Box positionInitial;
@@ -21,7 +23,7 @@ public class PositionPiece implements IValueObject {
     validatePosition(positionInitial);
     validatePosition(positionFinal);
   }
-  public static Boolean isPositionValid(Integer fila, String columna) {
+  public static Boolean isPositionValid(Integer fila, Column columna) {
     return fila >= 1 && fila <= 8 && columna != null;
   }
 

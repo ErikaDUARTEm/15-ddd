@@ -25,11 +25,10 @@ public class ShiftHistory implements IValueObject {
       validateNotEmpty(shift.toString(), "shift cannot be empty");
     }
   }
-  public ShiftHistory addShift(CurrentShift newShift) {
-    List<CurrentShift> updatedShifts = new ArrayList<>(this.shifts);
-    updatedShifts.add(newShift);
-    return ShiftHistory.of(updatedShifts);
+  public void addShift(CurrentShift newShift) {
+    shifts.add(newShift);
   }
+
   public List<CurrentShift> getShifts() {
     return shifts;
   }
