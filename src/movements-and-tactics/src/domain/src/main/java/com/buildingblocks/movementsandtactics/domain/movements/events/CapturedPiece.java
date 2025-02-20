@@ -4,13 +4,13 @@ import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 
 public class CapturedPiece extends DomainEvent {
-  private final PieceMovement opponentPiece;
+  private final String opponentPiece;
 
-  public CapturedPiece(PieceMovement opponentPiece) {
+  public CapturedPiece(String opponentPiece) {
     super(EventsEnum.CAPTURED_PIECE.name());
     this.opponentPiece = opponentPiece;
   }
-  public PieceMovement getOpponentPiece() {
+  public String getOpponentPiece() {
     return opponentPiece;
   }
 }

@@ -21,7 +21,7 @@ public class PositionPiece implements IValueObject {
     validatePosition(positionInitial);
     validatePosition(positionFinal);
   }
-  public static Boolean isPositionValid(Integer fila, Column columna) {
+  public static Boolean isPositionValid(Integer fila, String columna) {
     return fila >= 1 && fila <= 8 && columna != null;
   }
 

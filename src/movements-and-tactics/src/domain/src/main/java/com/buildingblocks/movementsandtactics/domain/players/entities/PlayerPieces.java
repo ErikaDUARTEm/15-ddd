@@ -1,8 +1,8 @@
-package com.buildingblocks.movementsandtactics.domain.jugadores.entities;
+package com.buildingblocks.movementsandtactics.domain.players.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
-import com.buildingblocks.movementsandtactics.domain.jugadores.values.PiecePlayer;
-import com.buildingblocks.movementsandtactics.domain.jugadores.values.PlayerPiecesId;
+import com.buildingblocks.movementsandtactics.domain.players.values.PiecePlayer;
+import com.buildingblocks.movementsandtactics.domain.players.values.PlayerPiecesId;
 
 import java.util.Set;
 

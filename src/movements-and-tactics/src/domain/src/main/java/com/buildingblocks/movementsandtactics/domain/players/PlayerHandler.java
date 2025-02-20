@@ -1,4 +1,4 @@
-package com.buildingblocks.movementsandtactics.domain.jugadores;
+package com.buildingblocks.movementsandtactics.domain.players;
 
 import com.buildingblocks.domain.shared.domain.generic.DomainActionsContainer;
 

@@ -2,8 +2,6 @@ package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
 
-import java.util.List;
-
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateColor;
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotEmpty;
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;

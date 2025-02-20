@@ -1,7 +1,7 @@
-package com.buildingblocks.movementsandtactics.domain.jugadores.entities;
+package com.buildingblocks.movementsandtactics.domain.players.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
-import com.buildingblocks.movementsandtactics.domain.jugadores.values.PlayerStatisticsId;
+import com.buildingblocks.movementsandtactics.domain.players.values.PlayerStatisticsId;
 
 public class PlayerStatistics extends Entity<PlayerStatisticsId> {
   private Integer gamesPlayed;

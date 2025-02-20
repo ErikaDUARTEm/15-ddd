@@ -1,7 +1,6 @@
 package com.buildingblocks.movementsandtactics.domain.movements;
 
 import com.buildingblocks.domain.shared.domain.generic.AggregateRoot;
-import com.buildingblocks.domain.shared.domain.utils.Column;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.BoardStatus;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
@@ -16,19 +15,14 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedSh
 import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedBox;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
-import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
+import com.buildingblocks.movementsandtactics.domain.players.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
-
-import java.util.List;
 
 
 public class Movement extends AggregateRoot<MovementId> {
   private Integer idTactic;
-  private Integer idPlayer;
+  private PlayerId playerId;
   private PositionPiece positionPiece;
   private Shift shift;
   private PieceMovement pieceMovement;
@@ -45,12 +39,12 @@ public class Movement extends AggregateRoot<MovementId> {
   }
   //endregion
   //region Getters and Setters
-  public Integer getIdPlayer() {
-    return idPlayer;
+  public PlayerId getPlayerId() {
+    return playerId;
   }
 
-  public void setIdPlayer(Integer idPlayer) {
-    this.idPlayer = idPlayer;
+  public void setPlayerId(PlayerId playerId) {
+    this.playerId = playerId;
   }
 
   public PositionPiece getPositionPiece() {
@@ -94,37 +88,39 @@ public class Movement extends AggregateRoot<MovementId> {
   }
   //endregion
   //region Methods
-  public void assignShiftToPlayer(String shiftId, String playerId, String currentShift) {
+  public void assignShift(String shiftId, String playerId, String currentShift) {
     apply(new AssignedShift(shiftId, playerId, currentShift));
   }
-  public void changeShift(String previousPlayerId, String newPlayerId, String shiftNumber, String CurrentShift) {
-    apply(new ChangedShift(previousPlayerId, newPlayerId, shiftNumber, CurrentShift));
+  public void changeShift(String previousPlayerId, String newPlayerId, String shiftNumber, String currentShift) {
+    apply(new ChangedShift(previousPlayerId, newPlayerId, shiftNumber, currentShift));
   }
-  public void movePiece(String playerId,String pieceId, Integer row, String column) {
-      apply(new MovedPiece(playerId, pieceId, row, column));
+  public void movePiece(String playerId,String pieceId, Integer row, String column, String color, String type) {
+      apply(new MovedPiece(playerId, pieceId, row, column,color, type));
   }
-  public void advancePiece(Integer row, String column, String pieceId, String idPlayer) {
+  public void advancePiece(Integer row, String column, String pieceId, String idPlayer, String type, String color) {
       apply(new AdvancedBox(
         row,
         column,
         pieceId,
-        idPlayer
+        idPlayer,
+        type,
+        color
       ));
   }
-  public void endShift() {
-    apply(new EndedShift());
+  public void endShift(String playerId) {
+    apply(new EndedShift(playerId));
   }
-  public void recordCurrentShift(String idPlayer) {
-    apply(new RecordedShift(idPlayer));
+  public void recordCurrentShift(String playerId) {
+    apply(new RecordedShift(playerId));
   }
-  public void validatePieceColor(PieceColor pieceColor) {
+  public void validatePieceColor(String pieceColor) {
     apply(new ValidatedPieceColor(pieceMovement.getIdentity(), pieceMovement.getPieceColor(), true));
   }
 
-  public void validatePieceType(PieceType pieceType) {
+  public void validatePieceType(String pieceType) {
     apply(new ValidatedPieceType(pieceMovement.getIdentity(), pieceMovement.getPieceType(), true));
   }
-  public void capturePiece(PieceMovement opponentPiece) {
+  public void capturePiece( String opponentPiece) {
       apply(new CapturedPiece(opponentPiece));
   }
   public void updateBox(Integer row, String column, String piece) {

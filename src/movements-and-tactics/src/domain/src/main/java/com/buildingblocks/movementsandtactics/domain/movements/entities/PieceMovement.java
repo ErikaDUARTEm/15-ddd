@@ -64,7 +64,7 @@ public class PieceMovement extends Entity<PieceMovementId> {
   public void validatePieceType(PieceType pieceType) {
     pieceType.validate();
   }
-  public boolean captureOpponentPiece(PieceMovement opponentPiece) {
+  public boolean captureOpponentPiece(PieceMovementId opponentPiece) {
     validateNotNull(opponentPiece, "Opponent piece cannot be null");
     if (this.currentBox.equals(opponentPiece.getCurrentBox())) {
       opponentPiece.setCurrentBox(null);

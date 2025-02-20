@@ -2,7 +2,6 @@ package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.generic.Identity;
 
-import java.util.Objects;
 
 public class ShiftId extends Identity {
   public ShiftId() {

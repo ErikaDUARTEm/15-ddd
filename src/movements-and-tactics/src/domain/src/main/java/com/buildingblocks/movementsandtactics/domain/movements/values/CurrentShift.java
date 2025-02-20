@@ -6,13 +6,15 @@ import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNot
 
 public class CurrentShift implements IValueObject {
   private final String shiftId;
+  private final String playerId;
 
-  private CurrentShift(String shiftId) {
+  private CurrentShift(String shiftId, String playerId) {
     this.shiftId = shiftId;
+    this.playerId = playerId;
     validate();
   }
-  public static CurrentShift of(String shiftId){
-    return new CurrentShift(shiftId);
+  public static CurrentShift of(String shiftId, String playerId){
+    return new CurrentShift(shiftId, playerId);
   }
   @Override
   public void validate() {
@@ -22,4 +24,8 @@ public class CurrentShift implements IValueObject {
   public String getNumberShift() {
     return shiftId;
   }
+  public String getPlayerId() {
+    return playerId;
+  }
+
 }

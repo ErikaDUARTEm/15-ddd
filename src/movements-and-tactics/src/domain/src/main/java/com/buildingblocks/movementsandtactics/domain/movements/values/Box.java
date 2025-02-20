@@ -34,7 +34,7 @@ public class Box implements IValueObject {
     return row;
   }
 
-  public String getColumn() {
+  public String  getColumn() {
     return column;
   }
 

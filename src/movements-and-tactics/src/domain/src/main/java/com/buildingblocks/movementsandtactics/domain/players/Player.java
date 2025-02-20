@@ -1,8 +1,8 @@
-package com.buildingblocks.movementsandtactics.domain.jugadores;
+package com.buildingblocks.movementsandtactics.domain.players;
 
 import com.buildingblocks.domain.shared.domain.generic.AggregateRoot;
-import com.buildingblocks.movementsandtactics.domain.jugadores.entities.PlayerStatistics;
-import com.buildingblocks.movementsandtactics.domain.jugadores.values.PlayerId;
+import com.buildingblocks.movementsandtactics.domain.players.entities.PlayerStatistics;
+import com.buildingblocks.movementsandtactics.domain.players.values.PlayerId;
 
 
 public class Player extends AggregateRoot<PlayerId> {
