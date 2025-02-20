@@ -1,4 +1,4 @@
-package com.buildingblocks.movementsandtactics.domain.movements.values;
+package com.buildingblocks.movementsandtactics.domain.jugadores.values;
 
 import com.buildingblocks.domain.shared.domain.generic.Identity;
 
