@@ -1,14 +1,18 @@
 package com.buildingblocks.movementsandtactics.domain.players;
 
 import com.buildingblocks.domain.shared.domain.generic.AggregateRoot;
+import com.buildingblocks.movementsandtactics.domain.players.entities.PlayerPieces;
 import com.buildingblocks.movementsandtactics.domain.players.entities.PlayerStatistics;
-import com.buildingblocks.movementsandtactics.domain.players.values.PlayerId;
+import com.buildingblocks.movementsandtactics.domain.players.values.PlayerName;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 
 
 public class Player extends AggregateRoot<PlayerId> {
-  private String name;
-  private String colorPiece;
+  private PlayerName name;
+  private PieceColor colorPiece;
   private PlayerStatistics statistics;
+  private PlayerPieces playerPieces;
 
 
   //region Constructor
@@ -24,29 +28,40 @@ public class Player extends AggregateRoot<PlayerId> {
   //endregion
 
 //region Getters and Setters
-public String getName() {
-  return name;
-}
 
-public void setName(String name) {
-  this.name = name;
-}
+  public PlayerName getName() {
+    return name;
+  }
 
-public String getColorPiece() {
-  return colorPiece;
-}
+  public void setName(PlayerName name) {
+    this.name = name;
+  }
 
-public void setColorPiece(String colorPiece) {
-  this.colorPiece = colorPiece;
-}
+  public PieceColor getColorPiece() {
+    return colorPiece;
+  }
 
-public PlayerStatistics getStatistics() {
-  return statistics;
-}
+  public void setColorPiece(PieceColor colorPiece) {
+    this.colorPiece = colorPiece;
+  }
 
-public void setStatistics(PlayerStatistics statistics) {
-  this.statistics = statistics;
-}
+  public PlayerStatistics getStatistics() {
+    return statistics;
+  }
+
+  public void setStatistics(PlayerStatistics statistics) {
+    this.statistics = statistics;
+  }
+
+  public PlayerPieces getPlayerPieces() {
+    return playerPieces;
+  }
+
+  public void setPlayerPieces(PlayerPieces playerPieces) {
+    this.playerPieces = playerPieces;
+  }
+
+
 //endregion
 
 //region Methods

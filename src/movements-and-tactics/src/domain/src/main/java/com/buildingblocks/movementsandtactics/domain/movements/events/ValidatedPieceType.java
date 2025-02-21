@@ -2,8 +2,7 @@ package com.buildingblocks.movementsandtactics.domain.movements.events;
 
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
-import com.buildingblocks.movementsandtactics.domain.tactics.entities.Type;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
 
 public class ValidatedPieceType extends DomainEvent {
   private final PieceMovementId idPiece;

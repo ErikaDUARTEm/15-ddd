@@ -14,7 +14,7 @@ public class Validate {
     }
   }
   public static void validateColor(String color){
-    if (!color.matches("blanco|negro")) {
+    if (!color.matches("WHITE|BLACK")) {
          throw new IllegalArgumentException("Invalid color");
       }
   }

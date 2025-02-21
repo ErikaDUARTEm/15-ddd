@@ -1,4 +1,4 @@
-package com.buildingblocks.movementsandtactics.domain.movements.values;
+package com.buildingblocks.movementsandtactics.domain.shared.values;
 
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
 import com.buildingblocks.domain.shared.domain.utils.TypePiece;

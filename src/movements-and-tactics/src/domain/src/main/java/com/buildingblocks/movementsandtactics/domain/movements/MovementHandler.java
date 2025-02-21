@@ -2,6 +2,7 @@ package com.buildingblocks.movementsandtactics.domain.movements;
 
 import com.buildingblocks.domain.shared.domain.generic.DomainActionsContainer;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
+import com.buildingblocks.domain.shared.domain.utils.Color;
 import com.buildingblocks.domain.shared.domain.utils.TypePiece;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
@@ -9,6 +10,7 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBo
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedShift;
@@ -18,10 +20,9 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedP
 import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
-import com.buildingblocks.movementsandtactics.domain.players.values.PlayerId;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 
 import java.util.List;
@@ -100,7 +101,7 @@ public class MovementHandler extends DomainActionsContainer {
       movement.setPlayerId(PlayerId.of(event.getIdPlayer()));
       movement.setPieceMovement(new PieceMovement(
         PieceType.of(TypePiece.valueOf(event.getType())),
-        PieceColor.of(event.getColor()),
+        PieceColor.of(Color.valueOf(event.getColor())),
         Box.of(event.getRow(), event.getColumn(), event.getPieceId())
         ));
       movement.getPieceMovement().move(Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
@@ -144,6 +145,13 @@ public class MovementHandler extends DomainActionsContainer {
   public Consumer<? extends DomainEvent> recordedMovement(Movement movement) {
     return (RecordedMovement event) -> {
       movement.getBoardStatus().recordMovement(MovementId.of(event.getMovementId()));
+    };
+  }
+  public Consumer<? extends DomainEvent> gameEnded(Movement movement) {
+    return (GameEnded event) -> {
+
+      movement.setGameEnded(true);
+      System.out.println("Game ended. Winner: " + event.getWinnerId() + ", Loser: " + event.getLoserId());
     };
   }
 }

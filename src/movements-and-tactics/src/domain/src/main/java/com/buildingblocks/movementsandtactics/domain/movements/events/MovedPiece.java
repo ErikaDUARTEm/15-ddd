@@ -1,9 +1,7 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
-import com.buildingblocks.domain.shared.domain.utils.Column;
 
-import java.util.PrimitiveIterator;
 
 public class MovedPiece extends DomainEvent {
   private final String idPlayer;

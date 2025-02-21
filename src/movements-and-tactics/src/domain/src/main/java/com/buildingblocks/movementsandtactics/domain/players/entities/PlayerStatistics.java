@@ -23,6 +23,31 @@ public class PlayerStatistics extends Entity<PlayerStatisticsId> {
   }
   //endregion
   //region Getters and Setters
+
+  public Integer getGamesPlayed() {
+    return gamesPlayed;
+  }
+
+  public void setGamesPlayed(Integer gamesPlayed) {
+    this.gamesPlayed = gamesPlayed;
+  }
+
+  public Integer getWinCount() {
+    return winCount;
+  }
+
+  public void setWinCount(Integer winCount) {
+    this.winCount = winCount;
+  }
+
+  public Integer getLossCount() {
+    return lossCount;
+  }
+
+  public void setLossCount(Integer lossCount) {
+    this.lossCount = lossCount;
+  }
+
   //endregion
   //region Methods
 

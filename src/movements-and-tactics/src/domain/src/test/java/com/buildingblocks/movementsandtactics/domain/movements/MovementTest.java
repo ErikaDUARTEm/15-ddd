@@ -8,7 +8,7 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShi
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
-import com.buildingblocks.movementsandtactics.domain.players.values.PlayerId;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftHistory;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftId;

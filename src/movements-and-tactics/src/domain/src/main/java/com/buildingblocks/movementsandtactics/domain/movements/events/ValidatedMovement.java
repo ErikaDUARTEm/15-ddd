@@ -1,7 +1,7 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
