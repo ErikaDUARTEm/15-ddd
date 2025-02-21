@@ -6,7 +6,6 @@ import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMov
 import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBox;
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
-import com.buildingblocks.movementsandtactics.domain.movements.events.CapturedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
@@ -119,9 +118,6 @@ public class Movement extends AggregateRoot<MovementId> {
 
   public void validatePieceType(String pieceType) {
     apply(new ValidatedPieceType(pieceMovement.getIdentity(), pieceMovement.getPieceType(), true));
-  }
-  public void capturePiece( String opponentPiece) {
-      apply(new CapturedPiece(opponentPiece));
   }
   public void updateBox(Integer row, String column, String piece) {
       apply(new UpdatedBox(row, column, piece));

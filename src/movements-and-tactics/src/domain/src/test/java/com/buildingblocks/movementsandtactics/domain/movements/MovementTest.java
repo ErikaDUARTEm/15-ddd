@@ -27,12 +27,12 @@ class MovementTest {
   void setUp() {
     movement = new Movement();
 
-    List<CurrentShift> initialShifts = List.of(CurrentShift.of("initialCurrentShift"));
+    List<CurrentShift> initialShifts = List.of(CurrentShift.of("initialCurrentShift", "1"));
     ShiftHistory initialHistory = ShiftHistory.of(initialShifts);
     movement.setShift(new Shift(
       ShiftId.of("initialShiftId"),
       PlayerId.of("initialPlayerId"),
-      CurrentShift.of("initialCurrentShift"),
+      CurrentShift.of("initialCurrentShift","1"),
       initialHistory
     ));
   }
@@ -46,7 +46,7 @@ class MovementTest {
       movement.assignShift(shiftId, playerId, currentShift);
 
       assertNotNull(movement.getShift(), "Shift deberia no ser nulo");
-      assertNotNull(movement.getIdPlayer(), "IdPlayer deberia no ser nulo");
+      assertNotNull(movement.getPlayerId(), "IdPlayer deberia no ser nulo");
       assertNotNull(movement.getShift().getCurrentShift(), "CurrentShift deberia no ser nulo");
 
       assertEquals(shiftId, movement.getShift().getIdentity().getValue());
@@ -83,7 +83,7 @@ class MovementTest {
 
       movement.movePiece( playerId, pieceId, row, column, color, type);
 
-      assertNotNull(movement.getIdPlayer(), "IdPlayer deberia no ser nulo");
+      assertNotNull(movement.getPlayerId(), "IdPlayer deberia no ser nulo");
       assertEquals(playerId, movement.getShift().getPlayerId().getValue());
       assertInstanceOf(MovedPiece.class, movement.getUncommittedEvents().get(0));
     }

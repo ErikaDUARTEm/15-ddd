@@ -7,7 +7,6 @@ import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMov
 import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBox;
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
-import com.buildingblocks.movementsandtactics.domain.movements.events.CapturedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
@@ -39,7 +38,6 @@ public class MovementHandler extends DomainActionsContainer {
     add(recordedShift(movement));
     add(validatedPieceColor(movement));
     add(validatedPieceType(movement));
-    add(capturedPiece(movement));
     add(updatedBox(movement));
     add(recordedMovement(movement));
   }
@@ -136,13 +134,7 @@ public class MovementHandler extends DomainActionsContainer {
       movement.getPieceMovement().validatePieceType(event.getExpectedType());
     };
   }
-  public Consumer<? extends DomainEvent> capturedPiece(Movement movement){
-    return (CapturedPiece event) -> {
-      if (movement.getPieceMovement() != null) {
-        movement.getPieceMovement().captureOpponentPiece(PieceMovementId.of(event.getOpponentPiece()));
-      }
-    };
-  }
+
   public Consumer<? extends DomainEvent> updatedBox(Movement movement) {
     return (UpdatedBox event) -> {
       Box newBox = Box.of(event.getRow(), event.getColumn(), event.getPiece());
