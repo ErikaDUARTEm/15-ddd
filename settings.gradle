@@ -7,3 +7,4 @@ project(':shared:domain').projectDir= file('./src/shared/src/domain')
 project(':movements-and-tactics:domain').projectDir = file('./src/movements-and-tactics/src/domain')
 
 
+
