@@ -51,6 +51,10 @@ public class PlayerStatistics extends Entity<PlayerStatisticsId> {
   //endregion
   //region Methods
 
+  public double getWinRate() {
+    return gamesPlayed == 0 ? 0 : (double) winCount / gamesPlayed;
+  }
+
   //endregion
 }
 
