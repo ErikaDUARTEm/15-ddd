@@ -8,6 +8,7 @@ import com.buildingblocks.movementsandtactics.domain.players.events.PlayerJoined
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerLostGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerWonGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.RemovedPiece;
+import com.buildingblocks.movementsandtactics.domain.players.events.CalculatedWinRate;
 import com.buildingblocks.movementsandtactics.domain.players.values.IsCaptured;
 import com.buildingblocks.movementsandtactics.domain.players.values.PlayerPiece;
 
@@ -21,6 +22,10 @@ public class PlayerHandler extends DomainActionsContainer {
     add(wonGame(player));
     add(loseGame(player));
     add(addedPiece(player));
+    add(playerJoinedGame(player));
+    add(pieceCaptured(player));
+    add(removedPiece(player));
+    add(winRateUpdated(player));
   }
   public Consumer<? extends DomainEvent> wonGame(Player player) {
     return (PlayerWonGame event) -> {
@@ -92,5 +97,11 @@ public class PlayerHandler extends DomainActionsContainer {
       player.message("Removed piece " + event.getPieceId() + " of type " + event.getType() + " and color " + event.getColor());
     };
   }
+  public Consumer<? extends DomainEvent> winRateUpdated(Player player) {
+    return (CalculatedWinRate event) -> {
+      player.getStatistics().setWinRate(player.getStatistics().calculateWinRate());
+      player.message("Win rate updated to " + player.getStatistics().getWinRate());
 
+    };
+  }
 }

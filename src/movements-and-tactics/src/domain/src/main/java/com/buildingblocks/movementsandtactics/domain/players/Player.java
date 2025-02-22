@@ -9,6 +9,7 @@ import com.buildingblocks.movementsandtactics.domain.players.events.PlayerJoined
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerLostGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerWonGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.RemovedPiece;
+import com.buildingblocks.movementsandtactics.domain.players.events.CalculatedWinRate;
 import com.buildingblocks.movementsandtactics.domain.players.values.PlayerName;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
@@ -93,6 +94,9 @@ public class Player extends AggregateRoot<PlayerId> {
   }
   public void removePiece(String pieceId, String color, String type) {
     apply(new RemovedPiece(pieceId, color, type));
+  }
+  public void updateWinRate(String playerId) {
+    apply(new CalculatedWinRate(playerId));
   }
 //endregion
   //region Helpers
