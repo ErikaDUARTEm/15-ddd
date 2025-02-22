@@ -4,8 +4,11 @@ import com.buildingblocks.domain.shared.domain.generic.AggregateRoot;
 import com.buildingblocks.movementsandtactics.domain.players.entities.PlayerPieces;
 import com.buildingblocks.movementsandtactics.domain.players.entities.PlayerStatistics;
 import com.buildingblocks.movementsandtactics.domain.players.events.AddedPiece;
+import com.buildingblocks.movementsandtactics.domain.players.events.CapturedPiece;
+import com.buildingblocks.movementsandtactics.domain.players.events.PlayerJoinedGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerLostGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerWonGame;
+import com.buildingblocks.movementsandtactics.domain.players.events.RemovedPiece;
 import com.buildingblocks.movementsandtactics.domain.players.values.PlayerName;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
@@ -20,16 +23,13 @@ public class Player extends AggregateRoot<PlayerId> {
 
 
   //region Constructor
-  public Player(Boolean gameEnded) {
+  public Player() {
     super(new PlayerId());
-    this.gameEnded = gameEnded;
     subscribe(new PlayerHandler(this));
   }
-  private Player(PlayerId identity, Boolean gameEnded) {
+  private Player(PlayerId identity) {
     super(identity);
-    this.gameEnded = gameEnded;
   }
-
   //endregion
 
 //region Getters and Setters
@@ -74,17 +74,37 @@ public class Player extends AggregateRoot<PlayerId> {
     this.gameEnded = gameEnded;
   }
 //endregion
-
-//region Methods
+//region Domain Actions
   public void winGame(String playerId, String name) {
    apply(new PlayerWonGame(playerId, name));
-}
+ }
 
   public void loseGame(String playerId, String name) {
     apply(new PlayerLostGame(playerId, name));
   }
-  public void addedPiece(String color, String type) {
-    apply(new AddedPiece(color, type));
+  public void addedPiece(String pieceId, String color, String type) {
+    apply(new AddedPiece(pieceId, color, type));
+  }
+  public void joinGame(String playerId, String gameId) {
+    apply(new PlayerJoinedGame(playerId, gameId));
+  }
+  public void capturePiece(String pieceId) {
+    apply(new CapturedPiece(pieceId));
+  }
+  public void removePiece(String pieceId, String color, String type) {
+    apply(new RemovedPiece(pieceId, color, type));
   }
 //endregion
+  //region Helpers
+  public void messagePlayerJoinedGame(String playerId, String gameId) {
+    if (gameId != null) {
+      System.out.println(playerId + " joined the game " + gameId);
+    }
+  }
+  public void message(String message) {
+    if (message != null) {
+      System.out.println(message);
+    }
+  }
+  // endregion
 }

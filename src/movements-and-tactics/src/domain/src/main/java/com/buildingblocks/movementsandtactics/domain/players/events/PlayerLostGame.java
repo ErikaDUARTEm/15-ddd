@@ -5,21 +5,19 @@ import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 public class PlayerLostGame extends DomainEvent {
   private final String playerId;
-  private final String name;
+  private final String namePlayer;
 
 
-  public PlayerLostGame( String playerId, String name1) {
+  public PlayerLostGame( String playerId, String namePlayer) {
     super(EventsEnum.PLAYER_LOST_GAME.name());
     this.playerId = playerId;
-    this.name = name1;
+    this.namePlayer = namePlayer;
   }
 
   public String getPlayerId() {
     return playerId;
   }
-
-  @Override
-  public String getName() {
-    return name;
+  public String getNamePlayer() {
+    return namePlayer;
   }
 }

@@ -7,7 +7,6 @@ import com.buildingblocks.movementsandtactics.domain.players.values.CapturedPiec
 import com.buildingblocks.movementsandtactics.domain.players.values.IsCaptured;
 import com.buildingblocks.movementsandtactics.domain.players.values.OwnPieces;
 import com.buildingblocks.movementsandtactics.domain.players.values.PlayerPiece;
-import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerPieceId;
 
 import java.util.ArrayList;
@@ -50,6 +49,15 @@ public class PlayerPieces extends Entity<PlayerPieceId> {
   public void setCapturedPieces(CapturedPieces capturedPieces) {
     this.capturedPieces = capturedPieces;
   }
+
+  public IsCaptured getIsCaptured() {
+    return isCaptured;
+  }
+
+  public void setIsCaptured(IsCaptured isCaptured) {
+    this.isCaptured = isCaptured;
+  }
+
   //endregion
   //region Methods
   public void addPieces(List<PlayerPiece> pieces) {

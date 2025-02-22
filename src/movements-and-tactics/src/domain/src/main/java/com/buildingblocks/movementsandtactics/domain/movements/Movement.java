@@ -136,8 +136,8 @@ public class Movement extends AggregateRoot<MovementId> {
   public void recordCurrentShift(String playerId) {
     apply(new RecordedShift(playerId));
   }
-  public void validatePieceColor(String pieceColor) {
-    apply(new ValidatedPieceColor(pieceMovement.getIdentity(), pieceMovement.getPieceColor(), true));
+  public void validatePieceColor(String pieceId, String expectedColor, Boolean isValid) {
+    apply(new ValidatedPieceColor(pieceId, expectedColor, isValid));
   }
 
   public void validatePieceType( String pieceId, String expectedType, Boolean isValid) {

@@ -126,7 +126,7 @@ public class MovementHandler extends DomainActionsContainer {
 
   public Consumer<? extends DomainEvent> validatedPieceColor(Movement movement) {
     return (ValidatedPieceColor event) -> {
-      movement.getPieceMovement().validatePieceColor(event.getExpectedColor());
+      movement.getPieceMovement().validatePieceColor(PieceColor.of(Color.valueOf(event.getExpectedColor())));
     };
   }
 
@@ -166,6 +166,9 @@ public class MovementHandler extends DomainActionsContainer {
       Box destinationBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
       PositionPiece positionPiece = PositionPiece.of(initialBox, destinationBox);
 
+      if (initialBox.equals(destinationBox)) {
+        movement.setIsValid(IsValid.of(false));
+      }
       boolean isOccupied = boxes.stream()
         .filter(box -> box.hasSameCoordinates(destinationBox))
         .anyMatch(Box::isOccupiedBox);

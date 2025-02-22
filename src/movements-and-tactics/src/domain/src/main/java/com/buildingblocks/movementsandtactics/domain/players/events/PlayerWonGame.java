@@ -6,7 +6,6 @@ public class PlayerWonGame extends DomainEvent {
   private final String playerId;
   private final String name;
 
-
   public PlayerWonGame( String playerId, String name1) {
     super(EventsEnum.PLAYER_WON_GAME.name());
     this.playerId = playerId;

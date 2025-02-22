@@ -3,8 +3,12 @@ package com.buildingblocks.movementsandtactics.domain.players;
 import com.buildingblocks.domain.shared.domain.generic.DomainActionsContainer;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 import com.buildingblocks.movementsandtactics.domain.players.events.AddedPiece;
+import com.buildingblocks.movementsandtactics.domain.players.events.CapturedPiece;
+import com.buildingblocks.movementsandtactics.domain.players.events.PlayerJoinedGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerLostGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerWonGame;
+import com.buildingblocks.movementsandtactics.domain.players.events.RemovedPiece;
+import com.buildingblocks.movementsandtactics.domain.players.values.IsCaptured;
 import com.buildingblocks.movementsandtactics.domain.players.values.PlayerPiece;
 
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ public class PlayerHandler extends DomainActionsContainer {
   public PlayerHandler(Player player) {
     add(wonGame(player));
     add(loseGame(player));
+    add(addedPiece(player));
   }
   public Consumer<? extends DomainEvent> wonGame(Player player) {
     return (PlayerWonGame event) -> {
@@ -50,15 +55,42 @@ public class PlayerHandler extends DomainActionsContainer {
       );
 
       for (String type : majorPieces) {
-        piecesFromEvent.add(PlayerPiece.of(event.getColor(), type));
+        piecesFromEvent.add(PlayerPiece.of(event.getPieceId(), event.getColor(), type));
       }
       if (event.getType().equals("PAWN")) {
         for (int i = 0; i < 8; i++) {
-          piecesFromEvent.add(PlayerPiece.of(event.getColor(), event.getType()));
+          piecesFromEvent.add(PlayerPiece.of(event.getPieceId(), event.getColor(), event.getType()));
         }
       }
       player.getPlayerPieces().addPieces(piecesFromEvent);
 
     };
   }
+  public Consumer<? extends DomainEvent> playerJoinedGame(Player player){
+    return (PlayerJoinedGame event) -> {
+      player.getStatistics().setGamesPlayed(player.getStatistics().getGamesPlayed() + 1);
+      player.setGameEnded(false);
+      player.messagePlayerJoinedGame(event.getPlayerId(), event.getGameId());
+    };
+  }
+  public Consumer<? extends DomainEvent> pieceCaptured(Player player) {
+    return (CapturedPiece event) -> {
+      List<PlayerPiece> opponentPieces = player.getPlayerPieces().getCapturedPieces().getPieces();
+      PlayerPiece capturedPiece = opponentPieces.stream()
+        .filter(piece -> piece.getPieceId().equals(event.getPieceId()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("No se encontró la pieza capturada."));
+
+      player.getPlayerPieces().captureOpponentPiece(capturedPiece);
+      player.getPlayerPieces().setIsCaptured(IsCaptured.of(true));
+      player.message("Captured piece " + event.getPieceId());
+    };
+  }
+  public Consumer<? extends DomainEvent> removedPiece(Player player){
+    return (RemovedPiece event) -> {
+      player.getPlayerPieces().removePiece(PlayerPiece.of(event.getPieceId(), event.getColor(), event.getType()));
+      player.message("Removed piece " + event.getPieceId() + " of type " + event.getType() + " and color " + event.getColor());
+    };
+  }
+
 }
