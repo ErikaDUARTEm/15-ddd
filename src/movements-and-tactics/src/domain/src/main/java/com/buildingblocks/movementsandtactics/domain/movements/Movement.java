@@ -110,7 +110,7 @@ public class Movement extends AggregateRoot<MovementId> {
   }
 
   //endregion
-  //region Methods
+  // region Domain Actions
   public void assignShift(String shiftId, String playerId, String currentShift) {
     apply(new AssignedShift(shiftId, playerId, currentShift));
   }
@@ -140,8 +140,8 @@ public class Movement extends AggregateRoot<MovementId> {
     apply(new ValidatedPieceColor(pieceMovement.getIdentity(), pieceMovement.getPieceColor(), true));
   }
 
-  public void validatePieceType(String pieceType) {
-    apply(new ValidatedPieceType(pieceMovement.getIdentity(), pieceMovement.getPieceType(), true));
+  public void validatePieceType( String pieceId, String expectedType, Boolean isValid) {
+    apply(new ValidatedPieceType( pieceId, expectedType, isValid));
   }
   public void updateBox(Integer row, String column, String piece) {
       apply(new UpdatedBox(row, column, piece));
@@ -159,4 +159,11 @@ public class Movement extends AggregateRoot<MovementId> {
     apply(new InvalidMovement(idMovement, idPlayer, row, column, pieceId, reason));
   }
   //endregion
+  //region Helpers
+  public void messageMovementInvalid(String mensaje) {
+    if (mensaje != null) {
+     System.out.println(mensaje);
+    }
+  }
+ //endregion
 }

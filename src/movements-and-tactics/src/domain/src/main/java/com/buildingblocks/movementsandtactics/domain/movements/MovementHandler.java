@@ -132,7 +132,7 @@ public class MovementHandler extends DomainActionsContainer {
 
   public Consumer<? extends DomainEvent> validatedPieceType(Movement movement) {
     return (ValidatedPieceType event) -> {
-      movement.getPieceMovement().validatePieceType(event.getExpectedType());
+      movement.getPieceMovement().validatePieceType(PieceType.of(TypePiece.valueOf(event.getExpectedType())));
     };
   }
 
@@ -173,9 +173,7 @@ public class MovementHandler extends DomainActionsContainer {
       if (isOccupied) {
         throw new IllegalStateException("La casilla destino ya está ocupada.");
       }
-      movement.getBoardStatus().advanceBox(positionPiece);
       movement.setIsValid(IsValid.of(true));
-      movement.getBoardStatus().recordMovement(MovementId.of(event.getIdMovement()));
     };
   }
   public Consumer<? extends DomainEvent> executedMovement(Movement movement) {
@@ -191,7 +189,6 @@ public class MovementHandler extends DomainActionsContainer {
         Box destinationBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
         PositionPiece positionPiece = PositionPiece.of(initialBox, destinationBox);
 
-        // Verificar si el movimiento es válido
         if (!movement.getIsValid().getValue()) {
           throw new IllegalStateException("Movimiento no válido.");
         }
@@ -202,13 +199,26 @@ public class MovementHandler extends DomainActionsContainer {
 
   public Consumer<? extends DomainEvent> invalidMovement(Movement movement) {
     return (InvalidMovement event) -> {
-
+      movement.setIsValid(IsValid.of(false));
+      String mensaje = "El movimiento no es válido. " + event.getReason();
+      movement.messageMovementInvalid(mensaje);
     };
   }
 
   public Consumer<? extends DomainEvent> updatedMovement(Movement movement) {
     return (UpdatedMovement event) -> {
+      List<Box> boxes = movement.getBoardStatus().getBoxes();
 
+      Box initialBox = boxes.stream()
+        .filter(box -> box.getPieceId() != null && box.getPieceId().equals(event.getPieceId()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("No se encontró la pieza en el tablero."));
+
+      Box destinationBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
+      PositionPiece positionPiece = PositionPiece.of(initialBox, destinationBox);
+
+      movement.getBoardStatus().advanceBox(positionPiece);
+      movement.getBoardStatus().recordMovement(MovementId.of(event.getIdMovement()));
     };
   }
 
