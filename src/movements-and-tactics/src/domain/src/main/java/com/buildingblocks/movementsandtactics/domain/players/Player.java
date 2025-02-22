@@ -3,6 +3,7 @@ package com.buildingblocks.movementsandtactics.domain.players;
 import com.buildingblocks.domain.shared.domain.generic.AggregateRoot;
 import com.buildingblocks.movementsandtactics.domain.players.entities.PlayerPieces;
 import com.buildingblocks.movementsandtactics.domain.players.entities.PlayerStatistics;
+import com.buildingblocks.movementsandtactics.domain.players.events.AddedPiece;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerLostGame;
 import com.buildingblocks.movementsandtactics.domain.players.events.PlayerWonGame;
 import com.buildingblocks.movementsandtactics.domain.players.values.PlayerName;
@@ -76,11 +77,14 @@ public class Player extends AggregateRoot<PlayerId> {
 
 //region Methods
   public void winGame(String playerId, String name) {
-  apply(new PlayerWonGame(playerId, name));
+   apply(new PlayerWonGame(playerId, name));
 }
 
   public void loseGame(String playerId, String name) {
     apply(new PlayerLostGame(playerId, name));
+  }
+  public void addedPiece(String color, String type) {
+    apply(new AddedPiece(color, type));
   }
 //endregion
 }

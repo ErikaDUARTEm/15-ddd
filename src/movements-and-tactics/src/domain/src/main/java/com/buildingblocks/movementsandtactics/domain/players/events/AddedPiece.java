@@ -3,22 +3,20 @@ package com.buildingblocks.movementsandtactics.domain.players.events;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 public class AddedPiece extends DomainEvent {
-  private final String playerId;
-  private final String name;
+  private final String Color;
+  private final String Type;
 
-
-  public AddedPiece( String playerId, String name1) {
-    super(EventsEnum.PLAYER_LOST_GAME.name());
-    this.playerId = playerId;
-    this.name = name1;
+  public AddedPiece( String color, String type) {
+    super(EventsEnum.ADDED_PIECE.name());
+    Color = color;
+    Type = type;
   }
 
-  public String getPlayerId() {
-    return playerId;
+  public String getColor() {
+    return Color;
   }
 
-  @Override
-  public String getName() {
-    return name;
+  public String getType() {
+    return Type;
   }
 }

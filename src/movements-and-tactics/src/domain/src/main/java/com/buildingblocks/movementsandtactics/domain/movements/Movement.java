@@ -9,12 +9,16 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedSh
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
+import com.buildingblocks.movementsandtactics.domain.movements.events.InvalidMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedBox;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
+import com.buildingblocks.movementsandtactics.domain.movements.values.IsGameEnded;
+import com.buildingblocks.movementsandtactics.domain.movements.values.IsValid;
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
@@ -27,7 +31,8 @@ public class Movement extends AggregateRoot<MovementId> {
   private Shift shift;
   private PieceMovement pieceMovement;
   private BoardStatus boardStatus;
-  private Boolean gameEnded = false;
+  private IsGameEnded isGameEnded;
+  private IsValid isValid;
 
   //region Constructors
   public Movement() {
@@ -87,12 +92,23 @@ public class Movement extends AggregateRoot<MovementId> {
   public void setPieceMovement(PieceMovement pieceMovement) {
     this.pieceMovement = pieceMovement;
   }
-  public Boolean isGameEnded() {
-    return gameEnded;
+
+  public IsGameEnded getIsGameEnded() {
+    return isGameEnded;
   }
-  public void setGameEnded(boolean gameEnded) {
-    this.gameEnded = gameEnded;
+
+  public void setIsGameEnded(IsGameEnded isGameEnded) {
+    this.isGameEnded = isGameEnded;
   }
+
+  public IsValid getIsValid() {
+    return isValid;
+  }
+
+  public void setIsValid(IsValid isValid) {
+    this.isValid = isValid;
+  }
+
   //endregion
   //region Methods
   public void assignShift(String shiftId, String playerId, String currentShift) {
@@ -135,6 +151,12 @@ public class Movement extends AggregateRoot<MovementId> {
   }
   public void endGame(String winnerId, String loserId) {
     apply(new GameEnded(winnerId, loserId));
+  }
+  public void validateMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId) {
+    apply(new ValidatedMovement(idMovement, idPlayer, row, column, pieceId));
+  }
+  public void inValidateMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId, String reason) {
+    apply(new InvalidMovement(idMovement, idPlayer, row, column, pieceId, reason));
   }
   //endregion
 }

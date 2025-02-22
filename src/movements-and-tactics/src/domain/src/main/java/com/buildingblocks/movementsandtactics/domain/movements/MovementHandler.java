@@ -10,15 +10,21 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBo
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ExecutedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
+import com.buildingblocks.movementsandtactics.domain.movements.events.InvalidMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedBox;
+import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedMovement;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
 import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
+import com.buildingblocks.movementsandtactics.domain.movements.values.IsGameEnded;
+import com.buildingblocks.movementsandtactics.domain.movements.values.IsValid;
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
@@ -41,36 +47,36 @@ public class MovementHandler extends DomainActionsContainer {
     add(validatedPieceType(movement));
     add(updatedBox(movement));
     add(recordedMovement(movement));
-  }
-  public Consumer<? extends DomainEvent> assignedShift(Movement movement){
-   return (AssignedShift event) -> {
-
-     if (movement.getShift() == null) {
-       movement.setShift(new Shift(
-         PlayerId.of(event.getIdPlayer()),
-         CurrentShift.of(event.getCurrentShift(), event.getIdPlayer())
-       ));
-     } else {
-       movement.getShift().setCurrentShift(CurrentShift.of(event.getCurrentShift(), event.getIdPlayer()));
-     }
-     movement.setPlayerId(PlayerId.of(event.getIdPlayer()));
-     movement.getShift().assign(PlayerId.of(event.getIdPlayer()), event.getCurrentShift());
-   };
+    add(gameEnded(movement));
+    add(validatedMovement(movement));
 
   }
-  public Consumer<? extends DomainEvent> changedShift(Movement movement){
+
+  public Consumer<? extends DomainEvent> assignedShift(Movement movement) {
+    return (AssignedShift event) -> {
+
+      if (movement.getShift() == null) {
+        movement.setShift(new Shift(
+          PlayerId.of(event.getIdPlayer()),
+          CurrentShift.of(event.getCurrentShift(), event.getIdPlayer())
+        ));
+      } else {
+        movement.getShift().setCurrentShift(CurrentShift.of(event.getCurrentShift(), event.getIdPlayer()));
+      }
+      movement.setPlayerId(PlayerId.of(event.getIdPlayer()));
+      movement.getShift().assign(PlayerId.of(event.getIdPlayer()), event.getCurrentShift());
+    };
+
+  }
+
+  public Consumer<? extends DomainEvent> changedShift(Movement movement) {
     return (ChangedShift event) -> {
       movement.getShift().record();
       CurrentShift newShift = CurrentShift.of(event.getShiftId(), event.getIdNewPlayer());
       if (movement.getShift() != null) {
 
         movement.getShift().change(PlayerId.of(event.getIdNewPlayer()), event.getShiftId());
-        System.out.println("dentro de if1" + movement.getShift().getCurrentShift().getNumberShift());
-
         movement.getShift().record();
-
-        System.out.println("dentro de if" + movement.getShift().getHistory().getShifts().toString());
-        System.out.println("dentro de if" + movement.getShift().getHistory().getShifts().get(2).toString());
 
       } else {
         movement.setShift(new Shift(
@@ -79,58 +85,52 @@ public class MovementHandler extends DomainActionsContainer {
         ));
         movement.getShift().record();
         movement.getShift().change(PlayerId.of(event.getIdNewPlayer()), event.getShiftId());
-        System.out.println("dentro de else" + movement.getShift().getCurrentShift().getNumberShift());
       }
-
       movement.getShift().setCurrentShift(newShift);
-      System.out.println(movement.getShift().getCurrentShift().getNumberShift());
       movement.getShift().getHistory().addShift(newShift);
-      List<CurrentShift> shifts = movement.getShift().getHistory().getShifts();
-      System.out.println("Tamaño de la lista de shifts: " + shifts.size());
-      for (CurrentShift shift : shifts) {
-        System.out.println("Shift: " + shift.getNumberShift());
-      }
-
-      System.out.println("Historial2 después de cambiar turno: " + movement.getShift().getCurrentShift().getNumberShift());
-
-
     };
   }
-  public Consumer<? extends DomainEvent> movedPiece(Movement movement){
+
+  public Consumer<? extends DomainEvent> movedPiece(Movement movement) {
     return (MovedPiece event) -> {
       movement.setPlayerId(PlayerId.of(event.getIdPlayer()));
       movement.setPieceMovement(new PieceMovement(
         PieceType.of(TypePiece.valueOf(event.getType())),
         PieceColor.of(Color.valueOf(event.getColor())),
         Box.of(event.getRow(), event.getColumn(), event.getPieceId())
-        ));
+      ));
       movement.getPieceMovement().move(Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
     };
   }
-  public Consumer<? extends DomainEvent> advanceBox(Movement movement){
+
+  public Consumer<? extends DomainEvent> advanceBox(Movement movement) {
     return (AdvancedBox event) -> {
-    PositionPiece positionPiece = PositionPiece.of(
-      Box.of(event.getRow(), event.getColumn(), event.getPieceId()),
-      Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
+      PositionPiece positionPiece = PositionPiece.of(
+        Box.of(event.getRow(), event.getColumn(), event.getPieceId()),
+        Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
       movement.getBoardStatus().advanceBox(positionPiece);
-  };
+    };
   }
-  public Consumer<? extends DomainEvent> endedShift(Movement movement){
+
+  public Consumer<? extends DomainEvent> endedShift(Movement movement) {
     return (EndedShift event) -> {
       movement.getShift().endShift(String.valueOf(PlayerId.of(event.getPlayerId())));
     };
   }
-  public Consumer<? extends DomainEvent> recordedShift(Movement movement){
+
+  public Consumer<? extends DomainEvent> recordedShift(Movement movement) {
     return (RecordedShift event) -> {
       movement.getShift().record();
     };
   }
-  public Consumer<? extends DomainEvent> validatedPieceColor(Movement movement){
+
+  public Consumer<? extends DomainEvent> validatedPieceColor(Movement movement) {
     return (ValidatedPieceColor event) -> {
       movement.getPieceMovement().validatePieceColor(event.getExpectedColor());
     };
   }
-  public Consumer<? extends DomainEvent> validatedPieceType(Movement movement){
+
+  public Consumer<? extends DomainEvent> validatedPieceType(Movement movement) {
     return (ValidatedPieceType event) -> {
       movement.getPieceMovement().validatePieceType(event.getExpectedType());
     };
@@ -142,16 +142,75 @@ public class MovementHandler extends DomainActionsContainer {
       movement.getBoardStatus().updateBox(newBox);
     };
   }
+
   public Consumer<? extends DomainEvent> recordedMovement(Movement movement) {
     return (RecordedMovement event) -> {
       movement.getBoardStatus().recordMovement(MovementId.of(event.getMovementId()));
     };
   }
+
   public Consumer<? extends DomainEvent> gameEnded(Movement movement) {
     return (GameEnded event) -> {
-
-      movement.setGameEnded(true);
-      System.out.println("Game ended. Winner: " + event.getWinnerId() + ", Loser: " + event.getLoserId());
+      movement.setIsGameEnded(IsGameEnded.of(true));
     };
   }
+  public Consumer<? extends DomainEvent> validatedMovement(Movement movement) {
+    return (ValidatedMovement event) -> {
+      List<Box> boxes = movement.getBoardStatus().getBoxes();
+
+      Box initialBox = boxes.stream()
+        .filter(box -> box.getPieceId() != null && box.getPieceId().equals(event.getPieceId()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("No se encontró la pieza en el tablero."));
+
+      Box destinationBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
+      PositionPiece positionPiece = PositionPiece.of(initialBox, destinationBox);
+
+      boolean isOccupied = boxes.stream()
+        .filter(box -> box.hasSameCoordinates(destinationBox))
+        .anyMatch(Box::isOccupiedBox);
+
+      if (isOccupied) {
+        throw new IllegalStateException("La casilla destino ya está ocupada.");
+      }
+      movement.getBoardStatus().advanceBox(positionPiece);
+      movement.setIsValid(IsValid.of(true));
+      movement.getBoardStatus().recordMovement(MovementId.of(event.getIdMovement()));
+    };
+  }
+  public Consumer<? extends DomainEvent> executedMovement(Movement movement) {
+    return (ExecutedMovement event) -> {
+
+        List<Box> boxes = movement.getBoardStatus().getBoxes();
+
+        Box initialBox = boxes.stream()
+          .filter(box -> box.getPieceId() != null && box.getPieceId().equals(event.getPieceId()))
+          .findFirst()
+          .orElseThrow(() -> new IllegalStateException("No se encontró la pieza en el tablero."));
+
+        Box destinationBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
+        PositionPiece positionPiece = PositionPiece.of(initialBox, destinationBox);
+
+        // Verificar si el movimiento es válido
+        if (!movement.getIsValid().getValue()) {
+          throw new IllegalStateException("Movimiento no válido.");
+        }
+        movement.getBoardStatus().advanceBox(positionPiece);
+        movement.getBoardStatus().recordMovement(MovementId.of(event.getIdMovement()));
+      };
+  }
+
+  public Consumer<? extends DomainEvent> invalidMovement(Movement movement) {
+    return (InvalidMovement event) -> {
+
+    };
+  }
+
+  public Consumer<? extends DomainEvent> updatedMovement(Movement movement) {
+    return (UpdatedMovement event) -> {
+
+    };
+  }
+
+
 }

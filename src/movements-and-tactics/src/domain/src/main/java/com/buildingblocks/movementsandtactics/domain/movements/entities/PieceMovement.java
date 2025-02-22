@@ -5,15 +5,13 @@ import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
-import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerPieceId;
-
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
 public class PieceMovement extends Entity<PieceMovementId> {
   private PieceType pieceType;
   private PieceColor pieceColor;
   private Box currentBox;
-  private PlayerPieceId capturedPieceId;
+
   //region Constructors
   public PieceMovement(PieceType pieceType, PieceColor pieceColor, Box currentBox) {
     super(new PieceMovementId());
@@ -67,12 +65,6 @@ public class PieceMovement extends Entity<PieceMovementId> {
   public void validatePieceType(PieceType pieceType) {
     pieceType.validate();
   }
-  public Boolean isCapture() {
-    return capturedPieceId != null;
-  }
 
-  public PlayerPieceId getCapturedPieceId() {
-    return capturedPieceId;
-  }
   //endregion
 }

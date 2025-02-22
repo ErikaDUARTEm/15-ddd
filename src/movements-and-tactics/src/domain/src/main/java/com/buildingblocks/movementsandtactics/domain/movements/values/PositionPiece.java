@@ -1,7 +1,6 @@
 package com.buildingblocks.movementsandtactics.domain.movements.values;
 
 import com.buildingblocks.domain.shared.domain.generic.IValueObject;
-import com.buildingblocks.domain.shared.domain.utils.Column;
 
 
 public class PositionPiece implements IValueObject {

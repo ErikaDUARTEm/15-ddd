@@ -21,11 +21,6 @@ public class CapturedPieces implements IValueObject {
   public void validate() {
     validateNotNull(pieces, "Pieces cannot be null");
   }
-  public CapturedPieces addPiece(PlayerPiece piece) {
-    List<PlayerPiece> newPieces = new ArrayList<>(this.pieces);
-    newPieces.add(piece);
-    return CapturedPieces.of(newPieces);
-  }
 
   public List<PlayerPiece> getPieces() {
     return pieces;

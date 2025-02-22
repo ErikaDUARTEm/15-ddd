@@ -41,4 +41,9 @@ public class Box implements IValueObject {
   public String getPieceId() {
     return pieceId;
   }
+
+  public boolean hasSameCoordinates(Box other) {
+    return this.row.equals(other.row) && this.column.equalsIgnoreCase(other.column);
+  }
+
 }
