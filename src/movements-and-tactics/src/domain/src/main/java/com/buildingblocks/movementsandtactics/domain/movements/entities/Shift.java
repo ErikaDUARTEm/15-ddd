@@ -63,7 +63,6 @@ public class Shift extends Entity<ShiftId> {
 
      this.playerId = PlayerId.of(idPlayer.getValue());
      setCurrentShift(CurrentShift.of(shiftIdNew, playerId.getValue()));
-     System.out.println("Nuevo turno después de assign: " + currentShift.getNumberShift());
   }
 
   public  void record(String playerId, String idShift){

@@ -1,8 +1,6 @@
 package com.buildingblocks.movementsandtactics.domain.players.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
-import com.buildingblocks.domain.shared.domain.utils.TypePiece;
-import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
 import com.buildingblocks.movementsandtactics.domain.players.values.CapturedPieces;
 import com.buildingblocks.movementsandtactics.domain.players.values.IsCaptured;
 import com.buildingblocks.movementsandtactics.domain.players.values.OwnPieces;
@@ -60,8 +58,10 @@ public class PlayerPieces extends Entity<PlayerPieceId> {
 
   //endregion
   //region Methods
-  public void addPieces(List<PlayerPiece> pieces) {
-    this.ownPieces = OwnPieces.of(pieces);
+  public void addPieces(List<PlayerPiece> newPieces) {
+    if (this.ownPieces.getPieces().isEmpty()) {
+      this.ownPieces = OwnPieces.of(newPieces);
+    }
   }
   public void captureOpponentPiece(PlayerPiece opponentPiece) {
     validateNotNull(opponentPiece, "Opponent piece cannot be null");

@@ -8,12 +8,14 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBo
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ExecutedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.events.InvalidMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedBox;
+import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
@@ -154,8 +156,14 @@ public class Movement extends AggregateRoot<MovementId> {
   public void validateMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId) {
     apply(new ValidatedMovement(idMovement, idPlayer, row, column, pieceId));
   }
+  public void executeMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId) {
+    apply(new ExecutedMovement(idMovement, idPlayer, row, column, pieceId));
+  }
   public void inValidateMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId, String reason) {
     apply(new InvalidMovement(idMovement, idPlayer, row, column, pieceId, reason));
+  }
+  public void updatedMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId) {
+    apply(new UpdatedMovement(idMovement, idPlayer, row, column, pieceId));
   }
   //endregion
   //region Helpers

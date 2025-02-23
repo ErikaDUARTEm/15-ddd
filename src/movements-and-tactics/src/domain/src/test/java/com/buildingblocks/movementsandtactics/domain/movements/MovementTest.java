@@ -10,10 +10,13 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBo
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
+import com.buildingblocks.movementsandtactics.domain.movements.events.ExecutedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
+import com.buildingblocks.movementsandtactics.domain.movements.events.InvalidMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedBox;
+import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
@@ -43,6 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -71,8 +75,6 @@ class MovementTest {
     movement.setPieceMovement(new PieceMovement(PieceType.of(TypePiece.ROOK), PieceColor.of(Color.valueOf("WHITE")), Box.of(1, "A", null)));
 
   }
-
-
 
   @Test
   void testAssignShiftToPlayerSuccess() {
@@ -262,8 +264,6 @@ class MovementTest {
   @Test
   void validateCorrectMovement() {
     BoardStatus boxes = movement.getBoardStatus();
-
-
     List<Box> initialBox = List.of(Box.of(1, "A", "4"));
     Boxes initialBoxes = Boxes.of(initialBox);
     boxes.setBoxes(initialBoxes);
@@ -278,5 +278,67 @@ class MovementTest {
     assertInstanceOf(ValidatedMovement.class, movement.getUncommittedEvents().get(0));
   }
 
+  @Test
+  void validateInvalidMovement() {
 
-}
+    movement.setIsValid(IsValid.of(false));
+
+    String reason = "Fuera de los límites del tablero";
+    movement.inValidateMovement("idMovement", "idPlayer", 2, "B", "4", reason);
+
+    assertFalse(movement.getIsValid().getValue(), "El movimiento debería permanecer inválido");
+    assertInstanceOf(InvalidMovement.class, movement.getUncommittedEvents().get(0));
+  }
+  @Test
+  void executeMovement() {
+
+    BoardStatus boardStatus = movement.getBoardStatus();
+    List<Box> initialBox = List.of(Box.of(1, "A", "4"));
+    Boxes initialBoxes = Boxes.of(initialBox);
+    boardStatus.setBoxes(initialBoxes);
+
+    Integer newRow = 2;
+    String newColumn = "B";
+    String pieceId = "4";
+
+    movement.setIsValid(IsValid.of(true));
+    movement.executeMovement("idMovement", "idPlayer", newRow, newColumn, pieceId);
+
+    Box updatedBox = boardStatus.getBoxes().getBoxes()
+      .stream()
+      .filter(box -> box.getPieceId() != null && box.getPieceId().equals(pieceId))
+      .findFirst()
+      .orElse(null);
+    boardStatus.setBoxes(initialBoxes);
+    assertNotNull(updatedBox, "La pieza debería haberse movido.");
+    assertEquals(newRow, updatedBox.getRow(), "La fila no se actualizó correctamente.");
+    assertEquals(newColumn, updatedBox.getColumn(), "La columna no se actualizó correctamente.");
+    assertInstanceOf(ExecutedMovement.class, movement.getUncommittedEvents().get(0));
+  }
+
+  @Test
+  void updateMovement() {
+    BoardStatus boardStatus = movement.getBoardStatus();
+    List<Box> initialBox = List.of(Box.of(1, "A", "4"));
+    Boxes initialBoxes = Boxes.of(initialBox);
+    boardStatus.setBoxes(initialBoxes);
+
+    Integer row = 2;
+    String column = "B";
+    String pieceId = "4";
+
+    movement.updatedMovement("idMovement", "idPlayer", row, column, pieceId);
+
+    Box updatedBox = boardStatus.getBoxes().getBoxes()
+      .stream()
+      .filter(box -> box.getPieceId() != null && box.getPieceId().equals(pieceId))
+      .findFirst()
+      .orElse(null);
+    boardStatus.setBoxes(initialBoxes);
+    assertNotNull(updatedBox);
+    assertEquals(row, updatedBox.getRow());
+    assertEquals(column, updatedBox.getColumn());
+    assertInstanceOf(UpdatedMovement.class, movement.getUncommittedEvents().get(0));
+  }
+  }
+

@@ -48,27 +48,22 @@ public class PlayerHandler extends DomainActionsContainer {
   public Consumer<? extends DomainEvent> addedPiece(Player player){
     return (AddedPiece event) -> {
       List<PlayerPiece> piecesFromEvent = new ArrayList<>();
-      List<String> majorPieces = List.of(
-        "ROOK",
-        "KNIGHT",
-        "BISHOP",
-        "QUEEN",
-        "KING",
-        "BISHOP",
-        "KNIGHT",
-        "ROOK"
-      );
+      if (player.getPlayerPieces().getOwnPieces().getPieces().isEmpty()) {
 
-      for (String type : majorPieces) {
-        piecesFromEvent.add(PlayerPiece.of(event.getPieceId(), event.getColor(), type));
-      }
-      if (event.getType().equals("PAWN")) {
-        for (int i = 0; i < 8; i++) {
-          piecesFromEvent.add(PlayerPiece.of(event.getPieceId(), event.getColor(), event.getType()));
+        List<String> majorPieces = List.of(
+          "ROOK", "KNIGHT", "BISHOP", "QUEEN", "KING", "BISHOP", "KNIGHT", "ROOK"
+        );
+
+        for (String type : majorPieces) {
+          piecesFromEvent.add(PlayerPiece.of(event.getPieceId(), event.getColor(), type));
         }
+        if (event.getType().equals("PAWN")) {
+          for (int i = 0; i < 8; i++) {
+            piecesFromEvent.add(PlayerPiece.of(event.getPieceId(), event.getColor(), "PAWN"));
+          }
+        }
+        player.getPlayerPieces().addPieces(piecesFromEvent);
       }
-      player.getPlayerPieces().addPieces(piecesFromEvent);
-
     };
   }
   public Consumer<? extends DomainEvent> playerJoinedGame(Player player){

@@ -10,6 +10,7 @@ import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPi
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
@@ -76,7 +77,6 @@ public class BoardStatus extends Entity<BoardStatusId> {
     if (!updated) {
       throw new IllegalStateException("Box to update not found");
     }
-    System.out.println("Updated boxes:" + updatedBoxes);
   this.boxes = Boxes.of(updatedBoxes);
   }
   public void recordMovement(MovementId movementId) {

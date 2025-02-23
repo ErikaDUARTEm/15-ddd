@@ -78,8 +78,7 @@ public class Player extends AggregateRoot<PlayerId> {
 //region Domain Actions
   public void winGame(String playerId, String name) {
    apply(new PlayerWonGame(playerId, name));
- }
-
+  }
   public void loseGame(String playerId, String name) {
     apply(new PlayerLostGame(playerId, name));
   }
