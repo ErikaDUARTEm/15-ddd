@@ -21,11 +21,7 @@ public class HistoryMovements implements IValueObject {
       throw new IllegalArgumentException("Movements cannot be null");
     }
   }
-  public HistoryMovements add(MovementId movementId) {
-    List<MovementId> newMovements = new ArrayList<>(this.movements);
-    newMovements.add(movementId);
-    return new HistoryMovements(newMovements);
-  }
+
   public List<MovementId> getMovements() {
     return movements;
   }

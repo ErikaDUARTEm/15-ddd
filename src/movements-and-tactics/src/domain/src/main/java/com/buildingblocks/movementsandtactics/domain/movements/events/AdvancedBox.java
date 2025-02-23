@@ -7,16 +7,14 @@ public class AdvancedBox extends DomainEvent {
   private final Integer row;
   private final String column;
   private final String pieceId;
-  private final String idPlayer;
   private final String type;
   private final String color;
 
-  public AdvancedBox(Integer row, String column, String pieceId, String idPlayer, String type, String color) {
+  public AdvancedBox(Integer row, String column, String pieceId, String type, String color) {
     super(EventsEnum.ADVANCED_BOX.name());
     this.row = row;
     this.column = column;
     this.pieceId = pieceId;
-    this.idPlayer = idPlayer;
     this.type = type;
     this.color = color;
   }
@@ -27,10 +25,6 @@ public class AdvancedBox extends DomainEvent {
 
   public String getColumn() {
     return column;
-  }
-
-  public String getIdPlayer() {
-    return idPlayer;
   }
 
   public String getPieceId() {

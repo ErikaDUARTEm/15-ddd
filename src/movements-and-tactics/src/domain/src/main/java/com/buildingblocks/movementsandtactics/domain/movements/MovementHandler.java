@@ -22,6 +22,7 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedM
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
 import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
+import com.buildingblocks.movementsandtactics.domain.movements.values.Boxes;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
 import com.buildingblocks.movementsandtactics.domain.movements.values.IsGameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.values.IsValid;
@@ -31,6 +32,8 @@ import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -71,23 +74,23 @@ public class MovementHandler extends DomainActionsContainer {
 
   public Consumer<? extends DomainEvent> changedShift(Movement movement) {
     return (ChangedShift event) -> {
-      movement.getShift().record();
-      CurrentShift newShift = CurrentShift.of(event.getShiftId(), event.getIdNewPlayer());
+
       if (movement.getShift() != null) {
 
         movement.getShift().change(PlayerId.of(event.getIdNewPlayer()), event.getShiftId());
-        movement.getShift().record();
+        movement.getShift().record(event.getIdNewPlayer(), event.getShiftId());
 
       } else {
         movement.setShift(new Shift(
           PlayerId.of(event.getIdNewPlayer()),
           CurrentShift.of(event.getShiftId(), event.getIdNewPlayer())
         ));
-        movement.getShift().record();
         movement.getShift().change(PlayerId.of(event.getIdNewPlayer()), event.getShiftId());
+        movement.getShift().record(event.getIdNewPlayer(), event.getShiftId());
       }
-      movement.getShift().setCurrentShift(newShift);
-      movement.getShift().getHistory().addShift(newShift);
+      movement.getShift().setCurrentShift(CurrentShift.of(event.getShiftId(), event.getIdNewPlayer()));
+      movement.getShift().addShift(CurrentShift.of(event.getShiftId(), event.getIdNewPlayer()));
+      movement.setPlayerId(PlayerId.of(event.getIdNewPlayer()));
     };
   }
 
@@ -100,38 +103,54 @@ public class MovementHandler extends DomainActionsContainer {
         Box.of(event.getRow(), event.getColumn(), event.getPieceId())
       ));
       movement.getPieceMovement().move(Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
+      movement.getPieceMovement().setCurrentBox(Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
     };
+
   }
 
   public Consumer<? extends DomainEvent> advanceBox(Movement movement) {
     return (AdvancedBox event) -> {
-      PositionPiece positionPiece = PositionPiece.of(
-        Box.of(event.getRow(), event.getColumn(), event.getPieceId()),
-        Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
-      movement.getBoardStatus().advanceBox(positionPiece);
+      if (movement.getBoardStatus() != null) {
+        System.out.println("Creando Box inicial con pieceId: " + event.getPieceId());
+        Box initialBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
+        Box destinationBox = Box.of(event.getRow(), event.getColumn(), null);
+
+        PositionPiece positionPiece = PositionPiece.of(
+          initialBox,
+          destinationBox);
+
+        movement.getBoardStatus().advanceBox(positionPiece);
+        movement.getBoardStatus().recordMovement(MovementId.of(event.getAggregateRootId()));
+        movement.getPieceMovement().setCurrentBox(Box.of(event.getRow(), event.getColumn(), event.getPieceId()));
+
+      };
     };
   }
 
   public Consumer<? extends DomainEvent> endedShift(Movement movement) {
     return (EndedShift event) -> {
-      movement.getShift().endShift(String.valueOf(PlayerId.of(event.getPlayerId())));
+      if (movement.getShift().getCurrentShift().getPlayerId() != null) {
+        movement.getShift().endShift(String.valueOf(PlayerId.of(event.getPlayerId())));
+      }
     };
   }
 
   public Consumer<? extends DomainEvent> recordedShift(Movement movement) {
     return (RecordedShift event) -> {
-      movement.getShift().record();
+      movement.getShift().record(event.getPlayerId(), event.getIdShift());
     };
   }
 
   public Consumer<? extends DomainEvent> validatedPieceColor(Movement movement) {
     return (ValidatedPieceColor event) -> {
+      movement.setIsValid(IsValid.of(true));
       movement.getPieceMovement().validatePieceColor(PieceColor.of(Color.valueOf(event.getExpectedColor())));
     };
   }
 
   public Consumer<? extends DomainEvent> validatedPieceType(Movement movement) {
     return (ValidatedPieceType event) -> {
+      movement.setIsValid(IsValid.of(true));
       movement.getPieceMovement().validatePieceType(PieceType.of(TypePiece.valueOf(event.getExpectedType())));
     };
   }
@@ -156,7 +175,7 @@ public class MovementHandler extends DomainActionsContainer {
   }
   public Consumer<? extends DomainEvent> validatedMovement(Movement movement) {
     return (ValidatedMovement event) -> {
-      List<Box> boxes = movement.getBoardStatus().getBoxes();
+      List<Box> boxes = new ArrayList<>(movement.getBoardStatus().getBoxes().getBoxes());
 
       Box initialBox = boxes.stream()
         .filter(box -> box.getPieceId() != null && box.getPieceId().equals(event.getPieceId()))
@@ -165,7 +184,6 @@ public class MovementHandler extends DomainActionsContainer {
 
       Box destinationBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
       PositionPiece positionPiece = PositionPiece.of(initialBox, destinationBox);
-
       if (initialBox.equals(destinationBox)) {
         movement.setIsValid(IsValid.of(false));
       }
@@ -182,7 +200,7 @@ public class MovementHandler extends DomainActionsContainer {
   public Consumer<? extends DomainEvent> executedMovement(Movement movement) {
     return (ExecutedMovement event) -> {
 
-        List<Box> boxes = movement.getBoardStatus().getBoxes();
+        List<Box> boxes = new ArrayList<>(movement.getBoardStatus().getBoxes().getBoxes());
 
         Box initialBox = boxes.stream()
           .filter(box -> box.getPieceId() != null && box.getPieceId().equals(event.getPieceId()))
@@ -210,7 +228,7 @@ public class MovementHandler extends DomainActionsContainer {
 
   public Consumer<? extends DomainEvent> updatedMovement(Movement movement) {
     return (UpdatedMovement event) -> {
-      List<Box> boxes = movement.getBoardStatus().getBoxes();
+      List<Box> boxes = new ArrayList<>(movement.getBoardStatus().getBoxes().getBoxes());
 
       Box initialBox = boxes.stream()
         .filter(box -> box.getPieceId() != null && box.getPieceId().equals(event.getPieceId()))

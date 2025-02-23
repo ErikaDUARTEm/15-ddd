@@ -4,21 +4,15 @@ import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 
 public class ChangedShift extends DomainEvent {
-  private final String idPreviousPlayer;
   private final String idNewPlayer;
   private final String shiftId;
-  private final String currentShiftId;
 
-  public ChangedShift(String idPreviousPlayer, String idNewPlayer, String shiftId, String currentShiftId) {
+
+  public ChangedShift( String idNewPlayer, String shiftId) {
     super(EventsEnum.CHANGED_SHIFT.name());
-    this.idPreviousPlayer = idPreviousPlayer;
     this.idNewPlayer = idNewPlayer;
     this.shiftId = shiftId;
-    this.currentShiftId = currentShiftId;
-  }
 
-  public String getIdPreviousPlayer() {
-    return idPreviousPlayer;
   }
 
   public String getIdNewPlayer() {
@@ -26,9 +20,6 @@ public class ChangedShift extends DomainEvent {
   }
   public String getShiftId() {
     return shiftId;
-  }
-  public String getCurrentShiftId() {
-    return currentShiftId;
   }
 
 }

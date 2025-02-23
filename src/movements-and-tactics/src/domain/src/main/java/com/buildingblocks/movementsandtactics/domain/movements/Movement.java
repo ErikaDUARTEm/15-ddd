@@ -114,18 +114,17 @@ public class Movement extends AggregateRoot<MovementId> {
   public void assignShift(String shiftId, String playerId, String currentShift) {
     apply(new AssignedShift(shiftId, playerId, currentShift));
   }
-  public void changeShift(String previousPlayerId, String newPlayerId, String shiftNumber, String currentShift) {
-    apply(new ChangedShift(previousPlayerId, newPlayerId, shiftNumber, currentShift));
+  public void changeShift(String newPlayerId, String shiftNumber) {
+    apply(new ChangedShift(newPlayerId, shiftNumber));
   }
   public void movePiece(String playerId,String pieceId, Integer row, String column, String color, String type) {
       apply(new MovedPiece(playerId, pieceId, row, column,color, type));
   }
-  public void advancePiece(Integer row, String column, String pieceId, String idPlayer, String type, String color) {
+  public void advanceBox(Integer row, String column, String pieceId, String type, String color) {
       apply(new AdvancedBox(
         row,
         column,
         pieceId,
-        idPlayer,
         type,
         color
       ));
@@ -133,8 +132,8 @@ public class Movement extends AggregateRoot<MovementId> {
   public void endShift(String playerId) {
     apply(new EndedShift(playerId));
   }
-  public void recordCurrentShift(String playerId) {
-    apply(new RecordedShift(playerId));
+  public void recordShift(String playerId, String idShift) {
+    apply(new RecordedShift(playerId, idShift));
   }
   public void validatePieceColor(String pieceId, String expectedColor, Boolean isValid) {
     apply(new ValidatedPieceColor(pieceId, expectedColor, isValid));

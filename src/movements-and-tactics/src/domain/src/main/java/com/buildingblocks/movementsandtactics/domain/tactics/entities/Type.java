@@ -77,8 +77,8 @@ public class Type extends Entity<TypeId> {
     specificConditions.put(TypeTactic.ENROQUE.toString(), this::evaluateCastlingCondition);
   }
   private boolean evaluateCastlingCondition(List<PieceMovement> pieces) {
-    PieceMovement king = pieces.stream().filter(p -> p.getPieceType().getType().equals(TypePiece.REY)).findFirst().orElse(null);
-    PieceMovement rook = pieces.stream().filter(p -> p.getPieceType().getType().equals(TypePiece.TORRE)).findFirst().orElse(null);
+    PieceMovement king = pieces.stream().filter(p -> p.getPieceType().getType().equals(TypePiece.KING)).findFirst().orElse(null);
+    PieceMovement rook = pieces.stream().filter(p -> p.getPieceType().getType().equals(TypePiece.ROOK)).findFirst().orElse(null);
 
     return king != null && rook != null && king.getCurrentBox().getRow().equals(rook.getCurrentBox().getRow());
   }
