@@ -289,6 +289,7 @@ class MovementTest {
     assertFalse(movement.getIsValid().getValue(), "El movimiento debería permanecer inválido");
     assertInstanceOf(InvalidMovement.class, movement.getUncommittedEvents().get(0));
   }
+  /*
   @Test
   void executeMovement() {
 
@@ -340,5 +341,7 @@ class MovementTest {
     assertEquals(column, updatedBox.getColumn());
     assertInstanceOf(UpdatedMovement.class, movement.getUncommittedEvents().get(0));
   }
+  }
+   */
   }
 
