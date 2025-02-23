@@ -12,7 +12,16 @@
             <option value="$PROJECT_DIR$/movements-and-tactics" />
             <option value="$PROJECT_DIR$/shared" />
             <option value="$PROJECT_DIR$/src/movements-and-tactics/src/domain" />
+            <option value="$PROJECT_DIR$/src/shared/src/application" />
             <option value="$PROJECT_DIR$/src/shared/src/domain" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/src/shared/src/application" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/src/shared/src/application" />
           </set>
         </option>
       </GradleProjectSettings>
