@@ -1,6 +1,7 @@
 package com.buildingblocks.movementsandtactics.domain.movements;
 
 import com.buildingblocks.domain.shared.domain.generic.AggregateRoot;
+import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.BoardStatus;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.PieceMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.entities.Shift;
@@ -24,6 +25,8 @@ import com.buildingblocks.movementsandtactics.domain.movements.values.IsValid;
 import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
+
+import java.util.List;
 
 
 public class Movement extends AggregateRoot<MovementId> {
@@ -164,6 +167,13 @@ public class Movement extends AggregateRoot<MovementId> {
   }
   public void updatedMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId) {
     apply(new UpdatedMovement(idMovement, idPlayer, row, column, pieceId));
+  }
+  //endregion
+  //region Methods
+  public static Movement from(final String identity, final List<DomainEvent> events) {
+    Movement movement = new Movement(MovementId.of(identity));
+    events.forEach(movement::apply);
+    return movement;
   }
   //endregion
   //region Helpers

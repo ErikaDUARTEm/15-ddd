@@ -2,7 +2,6 @@ package com.buildingblocks.movementsandtactics.domain.movements.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
-import com.buildingblocks.movementsandtactics.domain.players.values.OwnPieces;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftHistory;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftId;

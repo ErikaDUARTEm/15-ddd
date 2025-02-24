@@ -132,7 +132,7 @@ public class MovementHandler extends DomainActionsContainer {
 
   public Consumer<? extends DomainEvent> endedShift(Movement movement) {
     return (EndedShift event) -> {
-      if (movement.getShift().getCurrentShift().getPlayerId() != null) {
+      if (movement.getShift().getPlayerId() != null) {
         movement.getShift().endShift(String.valueOf(PlayerId.of(event.getPlayerId())));
       }
     };
@@ -213,17 +213,12 @@ public class MovementHandler extends DomainActionsContainer {
         .filter(box -> box.getRow().equals(event.getRow()) && box.getColumn().equals(event.getColumn()))
         .findFirst();
 
-      if (existingBox.isPresent() && existingBox.get().getPieceId() != null) {
-        throw new IllegalStateException("La casilla de destino ya está ocupada.");
-      }
-
       Box destinationBox = Box.of(event.getRow(), event.getColumn(), event.getPieceId());
       PositionPiece positionPiece = PositionPiece.of(initialBox, destinationBox);
 
       if (!movement.getIsValid().getValue()) {
         throw new IllegalStateException("Movimiento no válido.");
       }
-
       movement.getBoardStatus().advanceBox(positionPiece);
       movement.getBoardStatus().recordMovement(MovementId.of(event.getIdMovement()));
     };
