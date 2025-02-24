@@ -21,7 +21,7 @@ public class ManageShiftUseCase implements ICommandUseCase<ManageShiftUseCaseReq
     movement.assignShift(request.getPlayerId(), request.getShiftId(), request.getCurrentShift());
     movement.changeShift(request.getPlayerId(), request.getShiftId());
     movement.recordShift(request.getPlayerId(), request.getShiftId());
-    movement.endShift(request.getPlayerId());
+   // movement.endShift(request.getPlayerId());
 
 
     movement.getUncommittedEvents().forEach(repository::save);
