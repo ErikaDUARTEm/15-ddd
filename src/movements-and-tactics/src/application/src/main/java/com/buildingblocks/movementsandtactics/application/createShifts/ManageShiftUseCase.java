@@ -19,7 +19,6 @@ public class ManageShiftUseCase implements ICommandUseCase<ManageShiftUseCaseReq
   public Mono<ManageShiftUseCaseResponse> execute(ManageShiftUseCaseRequest request) {
     Movement movement = new Movement();
     movement.assignShift(request.getAggregateId(),request.getPlayerId(), request.getCurrentShift());
-    movement.recordShift(request.getPlayerId(), request.getAggregateId());
     movement.getUncommittedEvents().forEach(repository::save);
     movement.markEventsAsCommitted();
     return Mono.just(mapToMovement(movement));
