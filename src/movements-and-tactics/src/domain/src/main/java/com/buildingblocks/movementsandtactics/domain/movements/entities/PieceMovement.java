@@ -2,10 +2,9 @@ package com.buildingblocks.movementsandtactics.domain.movements.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
 import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PieceMovementId;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
-
+import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
 import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
 
 public class PieceMovement extends Entity<PieceMovementId> {
@@ -19,12 +18,14 @@ public class PieceMovement extends Entity<PieceMovementId> {
     this.pieceType = pieceType;
     this.pieceColor = pieceColor;
     this.currentBox = currentBox;
+
   }
-  public PieceMovement(PieceMovementId identity,PieceType pieceType, PieceColor pieceColor,Box currentBox ) {
+  public PieceMovement(PieceMovementId identity, PieceType pieceType, PieceColor pieceColor, Box currentBox) {
     super(identity);
     this.pieceType = pieceType;
     this.pieceColor = pieceColor;
     this.currentBox = currentBox;
+
   }
   //endregion
   //region Getters and Setters

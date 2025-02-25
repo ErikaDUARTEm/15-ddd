@@ -4,33 +4,27 @@ import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 
 public class AdvancedBox extends DomainEvent {
-  private final Integer row;
-  private final String column;
-  private final String pieceId;
-  private final String idPlayer;
-  private final String type;
-  private final String color;
+  private Integer row;
+  private String column;
+  private String pieceId;
+  private String type;
+  private String color;
 
-  public AdvancedBox(Integer row, String column, String pieceId, String idPlayer, String type, String color) {
+  public AdvancedBox(Integer row, String column, String pieceId, String type, String color) {
     super(EventsEnum.ADVANCED_BOX.name());
     this.row = row;
     this.column = column;
     this.pieceId = pieceId;
-    this.idPlayer = idPlayer;
     this.type = type;
     this.color = color;
   }
-
+  public AdvancedBox(){}
   public Integer getRow() {
     return row;
   }
 
   public String getColumn() {
     return column;
-  }
-
-  public String getIdPlayer() {
-    return idPlayer;
   }
 
   public String getPieceId() {
@@ -42,5 +36,25 @@ public class AdvancedBox extends DomainEvent {
 
   public String getColor() {
     return color;
+  }
+
+  public void setRow(Integer row) {
+    this.row = row;
+  }
+
+  public void setColumn(String column) {
+    this.column = column;
+  }
+
+  public void setPieceId(String pieceId) {
+    this.pieceId = pieceId;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
   }
 }

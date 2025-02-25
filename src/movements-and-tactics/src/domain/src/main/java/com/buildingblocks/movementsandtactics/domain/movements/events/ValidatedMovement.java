@@ -1,43 +1,41 @@
 package com.buildingblocks.movementsandtactics.domain.movements.events;
 
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceColor;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PieceType;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 
 public class ValidatedMovement extends DomainEvent {
-  private final Integer idMovement;
-  private final  Integer idPlayer;
-  private final PositionPiece positionPiece;
-  private final PieceType pieceType;
-  private final PieceColor pieceColor;
+  private final String idMovement;
+  private final String idPlayer;
+  private final Integer row;
+  private final String column;
+  private final String pieceId;
 
-  public ValidatedMovement(Integer idMovement, Integer idPlayer, PositionPiece positionPiece, PieceType pieceType, PieceColor pieceColor) {
+
+  public ValidatedMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId) {
     super(EventsEnum.VALIDATED_MOVEMENT.name());
     this.idMovement = idMovement;
     this.idPlayer = idPlayer;
-    this.positionPiece = positionPiece;
-    this.pieceType = pieceType;
-    this.pieceColor = pieceColor;
+    this.row = row;
+    this.column = column;
+    this.pieceId = pieceId;
   }
 
-  public Integer getIdMovement() {
+  public String getIdMovement() {
     return idMovement;
   }
 
-  public Integer getIdPlayer() {
+  public String getIdPlayer() {
     return idPlayer;
   }
 
-  public PositionPiece getPositionPiece() {
-    return positionPiece;
+  public Integer getRow() {
+    return row;
   }
 
-  public PieceType getPieceType() {
-    return pieceType;
+  public String getColumn() {
+    return column;
   }
 
-  public PieceColor getPieceColor() {
-    return pieceColor;
+  public String getPieceId() {
+    return pieceId;
   }
 }

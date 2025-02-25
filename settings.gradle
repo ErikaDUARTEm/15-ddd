@@ -1,9 +1,17 @@
 rootProject.name = 'building-blocks'
 
+
 include ':shared:domain'
+include ':shared:application'
 include ':movements-and-tactics:domain'
+include ':movements-and-tactics:application'
+include ':movements-and-tactics:mongo'
+include ':movements-and-tactics:main-service'
+
 
 project(':shared:domain').projectDir= file('./src/shared/src/domain')
+project(':shared:application').projectDir = file('./src/shared/src/application')
 project(':movements-and-tactics:domain').projectDir = file('./src/movements-and-tactics/src/domain')
-
-
+project(':movements-and-tactics:application').projectDir = file('./src/movements-and-tactics/src/application')
+project(':movements-and-tactics:mongo').projectDir = file('./src/movements-and-tactics/src/infrastructure/driven-adapters/mongo')
+project(':movements-and-tactics:main-service').projectDir = file('./src/movements-and-tactics/src/infrastructure/driving-adapters/main-service')

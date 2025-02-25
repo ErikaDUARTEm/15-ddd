@@ -2,9 +2,11 @@ package com.buildingblocks.movementsandtactics.domain.movements.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
-import com.buildingblocks.movementsandtactics.domain.players.values.PlayerId;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftHistory;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftId;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -52,41 +54,41 @@ public class Shift extends Entity<ShiftId> {
   }
   //endregion
   //region Methods
-   public void assign(PlayerId idPlayer, String shiftIdNew) {
-     validateNotEmpty(String.valueOf(idPlayer), "idPlayer cannot be empty");
+   public void assign( String shiftIdNew,PlayerId idPlayer) {
+     validateNotEmpty(idPlayer.getValue(), "idPlayer cannot be empty");
      validateNotNull(idPlayer, "idPlayer cannot be null");
-     validateNotEmpty(String.valueOf(shiftIdNew), "numberShift cannot be empty");
-     validateNotNull(String.valueOf(shiftIdNew), "numberShift cannot be null");
+     validateNotEmpty(shiftIdNew, "numberShift cannot be empty");
+     validateNotNull(shiftIdNew, "numberShift cannot be null");
 
-     this.playerId = idPlayer;
-     setCurrentShift(CurrentShift.of(String.valueOf(shiftIdNew), playerId.getValue()));
-     System.out.println("Nuevo turno después de assign: " + currentShift.getNumberShift());
+     this.playerId = PlayerId.of(idPlayer.getValue());
+     setCurrentShift(CurrentShift.of(shiftIdNew, playerId.getValue()));
   }
 
-  public  void record(){
+  public  void record(String playerId, String idShift){
+    setCurrentShift(CurrentShift.of(idShift, playerId));
     validateNotNull(currentShift, "currentShift cannot be null");
-    history = history.addShift(currentShift);
-    currentShift = null;
+    addShift(currentShift);
+   // currentShift = null;
   }
   public void change(PlayerId idPlayerNew, String numberShiftNew) {
-    setCurrentShift(CurrentShift.of(numberShiftNew, idPlayerNew.getValue()));
-    assign(idPlayerNew,numberShiftNew);
-
-    System.out.println(getCurrentShift().getNumberShift());
-
-    System.out.println(getHistory().getShifts().size());
-    System.out.println("   ✅ Turno después de change: " + (currentShift != null ? currentShift.getNumberShift() : "NULO"));
+    CurrentShift newCurrentShift = CurrentShift.of(numberShiftNew, idPlayerNew.getValue());
+    setCurrentShift(newCurrentShift);
+    this.playerId = idPlayerNew;
+    addShift(newCurrentShift);
   }
-
+  public void addShift(CurrentShift newShift) {
+    List<CurrentShift> updatedShifts = new ArrayList<>(history.getShifts());
+    updatedShifts.add(newShift);
+    this.history = ShiftHistory.of(updatedShifts);
+  }
   public void endShift(String playerId) {
     if (currentShift == null) {
       throw new IllegalStateException("No hay turno activo para terminar.");
     }
-
-    if (!currentShift.getPlayerId().equals(playerId)) {
+    if (currentShift.getPlayerId().equals(playerId)) {
       throw new IllegalArgumentException("Este jugador no tiene el turno actual.");
     }
-    record();
+    record(playerId, currentShift.getNumberShift());
     currentShift = null;
   }
   //endregion

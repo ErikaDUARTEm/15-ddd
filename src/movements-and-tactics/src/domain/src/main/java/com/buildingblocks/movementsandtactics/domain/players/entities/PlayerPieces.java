@@ -1,42 +1,80 @@
 package com.buildingblocks.movementsandtactics.domain.players.entities;
 
 import com.buildingblocks.domain.shared.domain.generic.Entity;
-import com.buildingblocks.movementsandtactics.domain.players.values.PiecePlayer;
-import com.buildingblocks.movementsandtactics.domain.players.values.PlayerPiecesId;
+import com.buildingblocks.movementsandtactics.domain.players.values.CapturedPieces;
+import com.buildingblocks.movementsandtactics.domain.players.values.IsCaptured;
+import com.buildingblocks.movementsandtactics.domain.players.values.OwnPieces;
+import com.buildingblocks.movementsandtactics.domain.players.values.PlayerPiece;
+import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerPieceId;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PlayerPieces extends Entity<PlayerPiecesId> {
-  private Set<PiecePlayer> ownPieces;
-  private Set<PiecePlayer> capturedPieces;
+import static com.buildingblocks.domain.shared.domain.utils.Validate.validateNotNull;
+
+public class PlayerPieces extends Entity<PlayerPieceId> {
+  private OwnPieces ownPieces;
+  private CapturedPieces capturedPieces;
+  private IsCaptured isCaptured;
 
   //region Constructors
-  public PlayerPieces(PlayerPiecesId identity, Set<PiecePlayer> ownPieces, Set<PiecePlayer> capturedPieces) {
+  public PlayerPieces(PlayerPieceId identity, OwnPieces ownPieces, CapturedPieces capturedPieces, IsCaptured isCaptured) {
     super(identity);
     this.ownPieces = ownPieces;
     this.capturedPieces = capturedPieces;
+    this.isCaptured = isCaptured;
   }
-  public PlayerPieces(Set<PiecePlayer> ownPieces, Set<PiecePlayer> capturedPieces) {
-    super(new PlayerPiecesId());
-    this.ownPieces = ownPieces;
+  public PlayerPieces(OwnPieces ownPieces, CapturedPieces capturedPieces, IsCaptured isCaptured) {
+    super(new PlayerPieceId());
+    this.ownPieces = OwnPieces.of(new ArrayList<>());
     this.capturedPieces = capturedPieces;
+    this.isCaptured = isCaptured;
   }
 //endregion
   //region Getters and Setters
-  public Set<PiecePlayer> getOwnPieces() {
+  public OwnPieces getOwnPieces() {
     return ownPieces;
   }
 
-  public void setOwnPieces(Set<PiecePlayer> ownPieces) {
+  public void setOwnPieces(OwnPieces ownPieces) {
     this.ownPieces = ownPieces;
   }
 
-  public Set<PiecePlayer> getCapturedPieces() {
+  public CapturedPieces getCapturedPieces() {
     return capturedPieces;
   }
 
-  public void setCapturedPieces(Set<PiecePlayer> capturedPieces) {
+  public void setCapturedPieces(CapturedPieces capturedPieces) {
     this.capturedPieces = capturedPieces;
   }
+
+  public IsCaptured getIsCaptured() {
+    return isCaptured;
+  }
+
+  public void setIsCaptured(IsCaptured isCaptured) {
+    this.isCaptured = isCaptured;
+  }
+
   //endregion
+  //region Methods
+  public void addPieces(List<PlayerPiece> newPieces) {
+    if (this.ownPieces.getPieces().isEmpty()) {
+      this.ownPieces = OwnPieces.of(newPieces);
+    }
+  }
+  public void captureOpponentPiece(PlayerPiece opponentPiece) {
+    validateNotNull(opponentPiece, "Opponent piece cannot be null");
+    List<PlayerPiece> newPieces = new ArrayList<>(this.capturedPieces.getPieces());
+    newPieces.add(opponentPiece);
+    this.capturedPieces = CapturedPieces.of(newPieces);
+  }
+
+  public void removePiece(PlayerPiece piece) {
+    List<PlayerPiece> newPieces = new ArrayList<>(this.ownPieces.getPieces());
+    newPieces.remove(piece);
+    this.ownPieces = OwnPieces.of(newPieces);
+  }
+
+//endregion
 }
