@@ -70,8 +70,8 @@ public class MovementHandler extends DomainActionsContainer {
       } else {
         movement.getShift().setCurrentShift(CurrentShift.of(event.getCurrentShift(), event.getIdPlayer()));
       }
+      movement.getShift().assign( event.getCurrentShift(), PlayerId.of(event.getIdPlayer()));
       movement.setPlayerId(PlayerId.of(event.getIdPlayer()));
-      movement.getShift().assign(PlayerId.of(event.getIdPlayer()), event.getCurrentShift());
     };
 
   }

@@ -47,6 +47,7 @@ public class Movement extends AggregateRoot<MovementId> {
 
   private Movement(MovementId identity) {
     super(identity);
+    //this.shift = new Shift(PlayerId.of("none"), CurrentShift.of("none", "none"));
   }
   //endregion
   //region Getters and Setters

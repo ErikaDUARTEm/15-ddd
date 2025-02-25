@@ -1,6 +1,7 @@
 package com.buildingblocks.movementsandtactics.application.createShifts;
 
-import com.buildingblocks.movementsandtactics.application.shared.repositories.IEventsRepository;
+import com.buildingblocks.movementsandtactics.application.shared.movements.ManageShiftUseCaseRequest;
+import com.buildingblocks.movementsandtactics.application.shared.ports.IEventsRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,11 +17,11 @@ import static org.mockito.Mockito.when;
 
 class ManageShiftUseCaseTest {
   private  ManageShiftUseCase useCase;
-  private  IEventsRepository repository;
+  private IEventsRepositoryPort repository;
 
   @BeforeEach
   void setUp() {
-    repository = Mockito.mock(IEventsRepository.class);
+    repository = Mockito.mock(IEventsRepositoryPort.class);
     useCase = new ManageShiftUseCase(repository);
   }
 
@@ -29,17 +30,16 @@ class ManageShiftUseCaseTest {
     when(repository.findEventsByAggregateId(anyString()))
       .thenReturn(Flux.empty());
 
-    ManageShiftUseCaseRequest request = new ManageShiftUseCaseRequest("player1", "shift1", "shift1");
+    ManageShiftUseCaseRequest request = new ManageShiftUseCaseRequest( "player1", "shift1");
 
     StepVerifier.create(useCase.execute(request))
       .assertNext(response -> {
         assertEquals("player1", response.getPlayerId());
-        assertNotEquals("shift1", response.getShiftId());
         assertEquals("shift1", response.getCurrentShift());
       })
       .verifyComplete();
 
-    verify(repository, times(3)).save(any());
+    verify(repository, times(1)).save(any());
 
    }
 }

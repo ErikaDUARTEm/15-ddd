@@ -54,7 +54,7 @@ public class Shift extends Entity<ShiftId> {
   }
   //endregion
   //region Methods
-   public void assign(PlayerId idPlayer, String shiftIdNew) {
+   public void assign( String shiftIdNew,PlayerId idPlayer) {
      validateNotEmpty(idPlayer.getValue(), "idPlayer cannot be empty");
      validateNotNull(idPlayer, "idPlayer cannot be null");
      validateNotEmpty(shiftIdNew, "numberShift cannot be empty");

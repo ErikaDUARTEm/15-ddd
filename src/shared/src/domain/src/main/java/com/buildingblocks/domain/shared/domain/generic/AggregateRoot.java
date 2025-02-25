@@ -19,13 +19,13 @@ public abstract class AggregateRoot<I extends Identity> extends Entity<I> {
     actionsHandler.subscribe(container);
   }
   protected  void apply(final DomainEvent event) {
-    final String AggregateName = getIdentity()
+    final String aggregateName = getIdentity()
       .getClass()
       .getSimpleName()
-      .replace("id", "")
+      .replace("Id", "")
       .toLowerCase();
 
-     event.setAggregateName(AggregateName);
+     event.setAggregateName(aggregateName);
      event.setAggregateRootId(getIdentity().getValue());
      actionsHandler.apply(event);
   }
