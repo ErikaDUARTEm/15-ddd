@@ -4,12 +4,12 @@ import com.buildingblocks.movementsandtactics.domain.movements.Movement;
 
 public class ChangeMapper {
   public static ChangeShiftUseCaseResponse mapToChange(Movement movement) {
-    if(movement.getShift() == null){
-      throw new IllegalStateException("El aggregate Movement no tiene un Shift asignado.");
-    }
+    System.out.println("dentro de ChangeMapper" +" " + movement.getShift().getIdentity().getValue() + " "+ movement.getIdentity().getValue() );
+
     return new ChangeShiftUseCaseResponse(
-      movement.getShift().getIdentity().getValue(),
-      movement.getPlayerId().getValue()
+      movement.getIdentity().getValue(),
+      movement.getPlayerId().getValue(),
+      movement.getShift().getIdentity().getValue()
     );
   }
 }

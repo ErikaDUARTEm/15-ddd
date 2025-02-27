@@ -3,14 +3,14 @@ package com.buildingblocks.movementsandtactics.application.changeShift;
 import com.buildingblocks.shared.application.Request;
 
 public class ChangeShiftUseCaseRequest extends Request {
-  private String shiftId;
   private String playerId;
+  private String shiftId;
 
 
-  public ChangeShiftUseCaseRequest(String aggregateId, String shiftId, String playerId) {
+  public ChangeShiftUseCaseRequest(String aggregateId, String playerId, String shiftId) {
     super(aggregateId);
-    this.shiftId = shiftId;
     this.playerId = playerId;
+    this.shiftId = shiftId;
   }
   public ChangeShiftUseCaseRequest(){}
   public String getPlayerId() {

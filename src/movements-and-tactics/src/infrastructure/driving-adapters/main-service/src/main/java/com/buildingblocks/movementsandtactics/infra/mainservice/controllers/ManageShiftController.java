@@ -1,7 +1,7 @@
 package com.buildingblocks.movementsandtactics.infra.mainservice.controllers;
 
 import com.buildingblocks.movementsandtactics.application.createShifts.ManageShiftUseCase;
-import com.buildingblocks.movementsandtactics.application.shared.movements.ManageShiftUseCaseRequest;
+import com.buildingblocks.movementsandtactics.application.createShifts.ManageShiftUseCaseRequest;
 import com.buildingblocks.movementsandtactics.application.shared.movements.ManageShiftUseCaseResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

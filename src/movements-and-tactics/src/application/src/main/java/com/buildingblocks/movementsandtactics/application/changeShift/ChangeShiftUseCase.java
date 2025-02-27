@@ -1,10 +1,14 @@
 package com.buildingblocks.movementsandtactics.application.changeShift;
 
+import com.buildingblocks.domain.shared.domain.generic.DomainEvent;
 import com.buildingblocks.movementsandtactics.application.shared.movements.ChangeShiftUseCaseResponse;
 import com.buildingblocks.movementsandtactics.application.shared.ports.IEventsRepositoryPort;
 import com.buildingblocks.movementsandtactics.domain.movements.Movement;
 import com.buildingblocks.shared.application.ICommandUseCase;
 import reactor.core.publisher.Mono;
+
+import java.util.Comparator;
+
 import static com.buildingblocks.movementsandtactics.application.shared.movements.ChangeMapper.mapToChange;
 
 public class ChangeShiftUseCase implements ICommandUseCase<ChangeShiftUseCaseRequest, Mono<ChangeShiftUseCaseResponse>> {
@@ -20,10 +24,12 @@ public class ChangeShiftUseCase implements ICommandUseCase<ChangeShiftUseCaseReq
       .findEventsByAggregateId(request.getAggregateId())
       .collectList()
       .map(events -> {
+        events.sort(Comparator.comparing(DomainEvent::getWhen));
         Movement movement = Movement.from(request.getAggregateId(), events);
           movement.changeShift(request.getPlayerId(), request.getShiftId());
           movement.recordShift(request.getPlayerId(), request.getShiftId());
           movement.getUncommittedEvents().forEach(repository::save);
+
           movement.markEventsAsCommitted();
           return mapToChange(movement);
     });

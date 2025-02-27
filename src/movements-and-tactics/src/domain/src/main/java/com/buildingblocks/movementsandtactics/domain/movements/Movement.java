@@ -10,7 +10,6 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedSh
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ExecutedMovement;
-import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.events.InvalidMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedMovement;
@@ -36,7 +35,6 @@ public class Movement extends AggregateRoot<MovementId> {
   private Shift shift;
   private PieceMovement pieceMovement;
   private BoardStatus boardStatus;
-  private IsGameEnded isGameEnded;
   private IsValid isValid;
 
   //region Constructors
@@ -47,7 +45,6 @@ public class Movement extends AggregateRoot<MovementId> {
 
   private Movement(MovementId identity) {
     super(identity);
-    //this.shift = new Shift(PlayerId.of("none"), CurrentShift.of("none", "none"));
   }
   //endregion
   //region Getters and Setters
@@ -99,14 +96,6 @@ public class Movement extends AggregateRoot<MovementId> {
     this.pieceMovement = pieceMovement;
   }
 
-  public IsGameEnded getIsGameEnded() {
-    return isGameEnded;
-  }
-
-  public void setIsGameEnded(IsGameEnded isGameEnded) {
-    this.isGameEnded = isGameEnded;
-  }
-
   public IsValid getIsValid() {
     return isValid;
   }
@@ -153,9 +142,6 @@ public class Movement extends AggregateRoot<MovementId> {
   }
   public void recordMovement(String movementId) {
       apply(new RecordedMovement(movementId));
-  }
-  public void endGame(String winnerId, String loserId) {
-    apply(new GameEnded(winnerId, loserId));
   }
   public void validateMovement(String idMovement, String idPlayer, Integer row, String column, String pieceId) {
     apply(new ValidatedMovement(idMovement, idPlayer, row, column, pieceId));

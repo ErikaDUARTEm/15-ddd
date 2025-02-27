@@ -64,8 +64,8 @@ public class Shift extends Entity<ShiftId> {
      setCurrentShift(CurrentShift.of(shiftIdNew, playerId.getValue()));
   }
 
-  public  void record(String playerId, String idShift){
-    setCurrentShift(CurrentShift.of(idShift, playerId));
+  public  void record(String playerId, String shiftId){
+    setCurrentShift(CurrentShift.of(shiftId, playerId));
     validateNotNull(currentShift, "currentShift cannot be null");
     addShift(currentShift);
    // currentShift = null;

@@ -1,4 +1,4 @@
-package com.buildingblocks.movementsandtactics.application.shared.movements;
+package com.buildingblocks.movementsandtactics.application.createShifts;
 
 import com.buildingblocks.shared.application.Request;
 
@@ -6,8 +6,8 @@ public class ManageShiftUseCaseRequest extends Request {
   private String playerId;
   private String currentShift;
 
-  public ManageShiftUseCaseRequest( String playerId, String currentShift) {
-    super(null);
+  public ManageShiftUseCaseRequest( String aggregateId, String playerId, String currentShift) {
+    super(aggregateId);
     this.playerId = playerId;
     this.currentShift = currentShift;
   }

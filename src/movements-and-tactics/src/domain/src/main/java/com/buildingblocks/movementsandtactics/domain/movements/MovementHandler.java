@@ -11,7 +11,6 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedSh
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ExecutedMovement;
-import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.events.InvalidMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedMovement;
@@ -22,7 +21,6 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedM
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
 import com.buildingblocks.movementsandtactics.domain.movements.values.Box;
-import com.buildingblocks.movementsandtactics.domain.movements.values.Boxes;
 import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShift;
 import com.buildingblocks.movementsandtactics.domain.movements.values.IsGameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.values.IsValid;
@@ -33,7 +31,6 @@ import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
 import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -51,7 +48,6 @@ public class MovementHandler extends DomainActionsContainer {
     add(validatedPieceType(movement));
     add(updatedBox(movement));
     add(recordedMovement(movement));
-    add(gameEnded(movement));
     add(validatedMovement(movement));
     add(executedMovement(movement));
     add(invalidMovement(movement));
@@ -67,11 +63,12 @@ public class MovementHandler extends DomainActionsContainer {
           PlayerId.of(event.getIdPlayer()),
           CurrentShift.of(event.getCurrentShift(), event.getIdPlayer())
         ));
-      } else {
-        movement.getShift().setCurrentShift(CurrentShift.of(event.getCurrentShift(), event.getIdPlayer()));
+        movement.getShift().assign( event.getCurrentShift(), PlayerId.of(event.getIdPlayer()));
+        movement.setPlayerId(PlayerId.of(event.getIdPlayer()));
       }
       movement.getShift().assign( event.getCurrentShift(), PlayerId.of(event.getIdPlayer()));
       movement.setPlayerId(PlayerId.of(event.getIdPlayer()));
+
     };
 
   }
@@ -171,11 +168,6 @@ public class MovementHandler extends DomainActionsContainer {
     };
   }
 
-  public Consumer<? extends DomainEvent> gameEnded(Movement movement) {
-    return (GameEnded event) -> {
-      movement.setIsGameEnded(IsGameEnded.of(true));
-    };
-  }
   public Consumer<? extends DomainEvent> validatedMovement(Movement movement) {
     return (ValidatedMovement event) -> {
       List<Box> boxes = new ArrayList<>(movement.getBoardStatus().getBoxes().getBoxes());

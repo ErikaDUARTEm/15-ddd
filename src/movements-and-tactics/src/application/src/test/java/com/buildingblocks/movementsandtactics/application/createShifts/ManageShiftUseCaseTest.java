@@ -1,6 +1,5 @@
 package com.buildingblocks.movementsandtactics.application.createShifts;
 
-import com.buildingblocks.movementsandtactics.application.shared.movements.ManageShiftUseCaseRequest;
 import com.buildingblocks.movementsandtactics.application.shared.ports.IEventsRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,7 @@ class ManageShiftUseCaseTest {
     when(repository.findEventsByAggregateId(anyString()))
       .thenReturn(Flux.empty());
 
-    ManageShiftUseCaseRequest request = new ManageShiftUseCaseRequest( "player1", "shift1");
+    ManageShiftUseCaseRequest request = new ManageShiftUseCaseRequest("aggregate", "player1","shift1");
 
     StepVerifier.create(useCase.execute(request))
       .assertNext(response -> {

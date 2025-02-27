@@ -1,6 +1,5 @@
 package com.buildingblocks.movementsandtactics.application.createShifts;
 
-import com.buildingblocks.movementsandtactics.application.shared.movements.ManageShiftUseCaseRequest;
 import com.buildingblocks.movementsandtactics.application.shared.movements.ManageShiftUseCaseResponse;
 import com.buildingblocks.movementsandtactics.application.shared.ports.IEventsRepositoryPort;
 import com.buildingblocks.movementsandtactics.domain.movements.Movement;
@@ -19,6 +18,8 @@ public class ManageShiftUseCase implements ICommandUseCase<ManageShiftUseCaseReq
   public Mono<ManageShiftUseCaseResponse> execute(ManageShiftUseCaseRequest request) {
     Movement movement = new Movement();
     movement.assignShift(request.getAggregateId(),request.getPlayerId(), request.getCurrentShift());
+    System.out.println("dentro de crear" +" " + movement.getShift().getIdentity().getValue() + " "+ movement.getIdentity().getValue() );
+
     movement.getUncommittedEvents().forEach(repository::save);
     movement.markEventsAsCommitted();
     return Mono.just(mapToMovement(movement));

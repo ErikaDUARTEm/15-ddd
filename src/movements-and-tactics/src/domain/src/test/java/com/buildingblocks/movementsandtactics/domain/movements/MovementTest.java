@@ -10,13 +10,10 @@ import com.buildingblocks.movementsandtactics.domain.movements.events.AdvancedBo
 import com.buildingblocks.movementsandtactics.domain.movements.events.AssignedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ChangedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.EndedShift;
-import com.buildingblocks.movementsandtactics.domain.movements.events.ExecutedMovement;
-import com.buildingblocks.movementsandtactics.domain.movements.events.GameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.events.InvalidMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.MovedPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.events.RecordedShift;
 import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedBox;
-import com.buildingblocks.movementsandtactics.domain.movements.events.UpdatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedMovement;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceColor;
 import com.buildingblocks.movementsandtactics.domain.movements.events.ValidatedPieceType;
@@ -26,11 +23,9 @@ import com.buildingblocks.movementsandtactics.domain.movements.values.CurrentShi
 import com.buildingblocks.movementsandtactics.domain.movements.values.HistoryMovements;
 import com.buildingblocks.movementsandtactics.domain.movements.values.IsGameEnded;
 import com.buildingblocks.movementsandtactics.domain.movements.values.IsValid;
-import com.buildingblocks.movementsandtactics.domain.movements.values.MovementId;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceColor;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PieceType;
 import com.buildingblocks.movementsandtactics.domain.shared.values.PlayerId;
-import com.buildingblocks.movementsandtactics.domain.movements.values.PositionPiece;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftHistory;
 import com.buildingblocks.movementsandtactics.domain.movements.values.ShiftId;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +33,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -253,14 +246,7 @@ class MovementTest {
     assertEquals(1, boardStatus.getHistory().getMovements().size());
     assertEquals(movementId, boardStatus.getHistory().getMovements().get(0).getValue());
   }
-  @Test
-  void gameEnded() {
-    movement.setIsGameEnded(IsGameEnded.of(true));
-    movement.endGame("winnerId", "loserId");
-    assertTrue(movement.getIsGameEnded().getValue());
-    assertInstanceOf(GameEnded.class, movement.getUncommittedEvents().get(0));
 
-  }
   @Test
   void validateCorrectMovement() {
     BoardStatus boxes = movement.getBoardStatus();
